@@ -29,6 +29,13 @@ html(lang="es")
           span#datos_feos_then.err_no_esp
           span , pero espero un error acá: 
           span#datos_feos_catch.res_ok
+        li
+          datos paso a paso. Cantidad de pasos:  
+          input#cantidad_pasos(value='3')
+          span un error que no espero aparecería acá:
+          span#paso_a_paso_err.err_no_esp
+          span recibo:
+          pre#pasos_recibidos.res_ok
     script(src='ajax-best-promise.js')
     script(src='example.js')
       

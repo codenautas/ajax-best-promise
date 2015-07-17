@@ -7,6 +7,17 @@ AjaxBestPromise.createMethodFunction=function(method){
             if(!method){
                 return reject(new Error('debe indicar el method en ajax'));
             }
+            if(params.pasoApaso){
+                ajax.onreadystatechange=function(){
+                    if(ajax.readyState===3){
+                        if(ajax.status && ajax.status!=200){
+                            reject(new Error(ajax.status+' '+ajax.responseText));
+                        }else{
+                            params.pasoApaso(ajax.responseText);
+                        }
+                    }
+                }
+            }
             ajax.onload=function(e){
                 if(ajax.status!=200){
                     reject(new Error(ajax.status+' '+ajax.responseText));

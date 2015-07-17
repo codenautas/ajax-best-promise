@@ -30,5 +30,17 @@ window.addEventListener('load', function(){
         }).catch(function(err){
             datos_feos_catch.textContent=''+err;
         });
+        eid('pasos_recibidos').textContent='';
+        AjaxBestPromise.get({
+            url:'/ejemplo/flujo',
+            data:{limite:eid('cantidad_pasos').value},
+            pasoApaso:function(resultPartial){
+                eid('pasos_recibidos').textContent+='\nPARCIAL:'+resultPartial;
+            }
+        }).then(function(result){
+            eid('pasos_recibidos').textContent+='\nLISTO\n'+result;
+        }).catch(function(err){
+            paso_a_paso_err.textContent=''+err;
+        });
     }
 });
