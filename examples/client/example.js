@@ -12,7 +12,15 @@ window.addEventListener('load', function(){
         }).then(function(result){
             eid('result').textContent=result;
         }).catch(function(err){
-            errores_no_esperados.textContent=''+err
+            error_suma.textContent=''+err
+        });
+        AjaxBestPromise.get({
+            url:'/ejemplo/inexistente',
+            data:{a:'99'}
+        }).then(function(result){
+            eid('url_inex_then').textContent=result;
+        }).catch(function(err){
+            url_inex_catch.textContent=''+err;
         });
     }
 });

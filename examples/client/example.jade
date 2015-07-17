@@ -1,17 +1,27 @@
-doctype html
+﻿doctype html
 html(lang="es")
   head
     title Ajax-best-promise example
+    link(href="example.css", rel="stylesheet", type="text/css")
   body
     h1 Ajax-best-promise example
     div
       button#start <big><b>S</b></big>tart
-      input#p1(value="123")
-      span +
-      input#p2(value="9001")
-      span =
-      span#result
-    #errores_no_esperados
+      ul
+        li
+          span suma
+          input#p1(value="123")
+          span +
+          input#p2(value="9001")
+          span =
+          span#result.res_ok
+          .err_no_esp#error_suma
+        li
+          span url inexistente. 
+          span si recibiera un dato lo vería acá: 
+          span#url_inex_then.err_no_esp
+          span , pero espero un error acá: 
+          span#url_inex_catch.res_ok
     script(src='ajax-best-promise.js')
     script(src='example.js')
       

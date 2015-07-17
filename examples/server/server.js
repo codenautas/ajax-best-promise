@@ -100,5 +100,5 @@ app.get('/',serveHtmlText('<h1>Ajax-best-promise example </h1>'));
 app.get('/ejemplo/suma',function(req,res){
     var params=req.query;
     // probar con localhost:12448/ejemplo/suma?alfa=3&beta=7
-    res.send(Number(req.query.p1)+Number(req.query.p2));
+    res.send((Number(req.query.p1)+Number(req.query.p2)).toString());
 });
