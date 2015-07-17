@@ -22,6 +22,13 @@ html(lang="es")
           span#url_inex_then.err_no_esp
           span , pero espero un error acá: 
           span#url_inex_catch.res_ok
+        li
+          datos feos que van a ser rechazados por el servidor. Datos: 
+          input#datos_feos(value="esto < 5 ó >4 a<b>c & esto ; feo '; drop table" style='width:300px')
+          span si recibiera un dato lo vería acá: 
+          span#datos_feos_then.err_no_esp
+          span , pero espero un error acá: 
+          span#datos_feos_catch.res_ok
     script(src='ajax-best-promise.js')
     script(src='example.js')
       

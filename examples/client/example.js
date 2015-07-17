@@ -22,5 +22,13 @@ window.addEventListener('load', function(){
         }).catch(function(err){
             url_inex_catch.textContent=''+err;
         });
+        AjaxBestPromise.get({
+            url:'/ejemplo/error',
+            data:{p_valor_malo:eid('datos_feos').value}
+        }).then(function(result){
+            eid('datos_feos_then').textContent=result;
+        }).catch(function(err){
+            datos_feos_catch.textContent=''+err;
+        });
     }
 });

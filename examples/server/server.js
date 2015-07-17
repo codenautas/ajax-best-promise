@@ -102,3 +102,11 @@ app.get('/ejemplo/suma',function(req,res){
     // probar con localhost:12448/ejemplo/suma?alfa=3&beta=7
     res.send((Number(req.query.p1)+Number(req.query.p2)).toString());
 });
+
+
+app.get('/ejemplo/error',function(req,res){
+    var params=req.query;
+    // probar con localhost:12448/ejemplo/suma?alfa=3&beta=7
+    // no es lo mejor devolverle los datos al cliente
+    res.send(400,JSON.stringify({message:'invalid parameters', data:req.query.p_valor_malo}));
+});
