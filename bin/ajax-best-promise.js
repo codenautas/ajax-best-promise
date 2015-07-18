@@ -10,9 +10,7 @@ AjaxBestPromise.createMethodFunction=function(method){
             if(params.pasoApaso){
                 ajax.multipart=true;
                 ajax.onprogress=function(pe){
-                    if(pe.lengthComputable){
-                        params.pasoApaso(pe.total+': '+pe.loaded);
-                    }
+                    params.pasoApaso(pe.loaded+': '+ajax.responseText);
                 };
             }
             ajax.onload=function(e){
