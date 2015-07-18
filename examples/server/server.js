@@ -106,15 +106,29 @@ app.get('/ejemplo/suma',function(req,res){
 app.get('/ejemplo/error',function(req,res){
     var params=req.query;
     // no es lo mejor devolverle los datos al cliente
-    res.send(400,JSON.stringify({message:'invalid parameters', data:req.query.p_valor_malo}));
+    res.status(400).send(JSON.stringify({message:'invalid parameters', data:req.query.p_valor_malo}));
 });
 
 app.get('/ejemplo/flujo',function(req,res){
     var params=req.query;
     var paso=0;
+    var primos=[];
+    var esPrimo=function(x){
+        if(x<2) return false;
+        for(var i=0; i<primos.length; i++){
+            var divisor=primos[i];
+            if(x % divisor ==0){
+                return false;
+            }
+        }
+        primos.push(x);
+        return true;
+    }
     var iterador=setInterval(function(){
         paso++;
-        res.write('line '+paso+(paso==2?' es el dos!':'')+'\n');
+        var data='line '+paso+(esPrimo(paso)?' es primo!':'')+'\n';
+        res.write(data);
+        console.log(data);
         if(paso>=params.limite){
             res.end();
             clearInterval(iterador);

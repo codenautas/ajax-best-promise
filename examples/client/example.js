@@ -39,6 +39,7 @@ window.addEventListener('load', function(){
             }
         }).then(function(result){
             eid('pasos_recibidos').textContent+='\nLISTO\n'+result;
+            eid('pasos_recibidos').className='res_ok';
         }).catch(function(err){
             paso_a_paso_err.textContent=''+err;
         });

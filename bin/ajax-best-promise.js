@@ -8,15 +8,12 @@ AjaxBestPromise.createMethodFunction=function(method){
                 return reject(new Error('debe indicar el method en ajax'));
             }
             if(params.pasoApaso){
-                ajax.onreadystatechange=function(){
-                    if(ajax.readyState===3){
-                        if(ajax.status && ajax.status!=200){
-                            reject(new Error(ajax.status+' '+ajax.responseText));
-                        }else{
-                            params.pasoApaso(ajax.responseText);
-                        }
+                ajax.multipart=true;
+                ajax.onprogress=function(pe){
+                    if(pe.lengthComputable){
+                        params.pasoApaso(pe.total+': '+pe.loaded);
                     }
-                }
+                };
             }
             ajax.onload=function(e){
                 if(ajax.status!=200){
