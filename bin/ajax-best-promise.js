@@ -8,12 +8,27 @@ AjaxBestPromise.createMethodFunction=function(method){
                 return reject(new Error('debe indicar el method en ajax'));
             }
             if(params.pasoApaso){
+                var initialPos=0;
+                var endPos=0;
+                var receivePart=function(){
+                    if(endPos<ajax.responseText.length){
+                        initialPos=endPos;
+                        endPos=ajax.responseText.length;
+                        params.pasoApaso(ajax.responseText.substr(initialPos,endPos));
+                    }
+                }
+                // var interval = setInterval(receivePart,1000);
                 ajax.multipart=true;
                 ajax.onprogress=function(pe){
-                    params.pasoApaso(pe.loaded+': '+ajax.responseText);
+                    if (ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4)
+                        return;
+                    if (ajax.readyState == 3 && ajax.status != 200)
+                        return;
+                    receivePart();
                 };
             }
             ajax.onload=function(e){
+                // clearInterval(interval);
                 if(ajax.status!=200){
                     reject(new Error(ajax.status+' '+ajax.responseText));
                 }else{
@@ -25,12 +40,12 @@ AjaxBestPromise.createMethodFunction=function(method){
                 return key+'='+encodeURIComponent(params.data[key]);
             }).join('&');
             if(method==='POST'){
-                ajax.open(method,params.url);
+                ajax.open(method,params.url,true);
                 ajax.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
                 ajax.send(paqueteAEnviar);
             }else{
                 var url=params.url+(paqueteAEnviar?'?'+paqueteAEnviar:'');
-                ajax.open(method,url);
+                ajax.open(method,url,true);
                 ajax.send();
             }
         });

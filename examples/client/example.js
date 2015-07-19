@@ -31,14 +31,15 @@ window.addEventListener('load', function(){
             datos_feos_catch.textContent=''+err;
         });
         eid('pasos_recibidos').textContent='';
+        eid('pasos_recibidos').className='res_partial';
         AjaxBestPromise.get({
             url:'/ejemplo/flujo',
             data:{limite:eid('cantidad_pasos').value},
             pasoApaso:function(resultPartial){
-                eid('pasos_recibidos').textContent+='\nPARCIAL:'+resultPartial;
+                eid('pasos_recibidos').textContent+=resultPartial;
             }
         }).then(function(result){
-            eid('pasos_recibidos').textContent+='\nLISTO\n'+result;
+            eid('pasos_recibidos').textContent=result;
             eid('pasos_recibidos').className='res_ok';
         }).catch(function(err){
             paso_a_paso_err.textContent=''+err;

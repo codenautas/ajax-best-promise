@@ -113,6 +113,7 @@ app.get('/ejemplo/flujo',function(req,res){
     var params=req.query;
     var paso=0;
     var primos=[];
+    res.append('Content-Type', 'application/octet-stream');
     var esPrimo=function(x){
         if(x<2) return false;
         for(var i=0; i<primos.length; i++){
