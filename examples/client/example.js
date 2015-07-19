@@ -6,7 +6,6 @@ function eid(x){
 
 window.addEventListener('load', function(){
     eid('start').onclick=function(){
-
         AjaxBestPromise.get({
             url:'/ejemplo/suma',
             data:AjaxBestPromise.fromElements(['p1', eid('p2')])
@@ -31,7 +30,6 @@ window.addEventListener('load', function(){
         }).catch(function(err){
             datos_feos_catch.textContent=''+err;
         });
-
         eid('pasos_recibidos').textContent='';
         eid('pasos_recibidos').className='res_partial';
         AjaxBestPromise.get({

@@ -113,7 +113,7 @@ app.get('/ejemplo/flujo',function(req,res){
     var params=req.query;
     var paso=0;
     var primos=[];
-    res.append('Content-Type', 'application/octet-stream');
+    res.append('Content-Type', 'application/octet-stream'); // por chrome bug segun: http://stackoverflow.com/questions/3880381/xmlhttprequest-responsetext-while-loading-readystate-3-in-chrome
     var esPrimo=function(x){
         if(x<2) return false;
         for(var i=0; i<primos.length; i++){
@@ -129,10 +129,8 @@ app.get('/ejemplo/flujo',function(req,res){
         paso++;
         var data='line '+paso+(esPrimo(paso)?' es primo!':'')+'\n';
         res.write(data);
-
         console.log(data);
         if(paso>=params.limite){
-           res.write('--endofthispart--\r\n\r\n');
             res.end();
             clearInterval(iterador);
         }
