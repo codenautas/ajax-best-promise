@@ -129,8 +129,10 @@ app.get('/ejemplo/flujo',function(req,res){
         paso++;
         var data='line '+paso+(esPrimo(paso)?' es primo!':'')+'\n';
         res.write(data);
+
         console.log(data);
         if(paso>=params.limite){
+           res.write('--endofthispart--\r\n\r\n');
             res.end();
             clearInterval(iterador);
         }
