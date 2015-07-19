@@ -7,7 +7,7 @@ AjaxBestPromise.createMethodFunction=function(method){
             if(!method){
                 return reject(new Error('debe indicar el method en ajax'));
             }
-            if(params.pasoApaso){
+            if(params.pasoApaso && false){
                 ajax.multipart=true;
                 ajax.onprogress=function(pe){
                     params.pasoApaso(pe.loaded+': '+ajax.responseText);

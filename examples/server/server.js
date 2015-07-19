@@ -110,6 +110,10 @@ app.get('/ejemplo/error',function(req,res){
 });
 
 app.get('/ejemplo/flujo',function(req,res){
+    var Multipart = require('multipart-stream')
+    var mp=new Multipart("endofthispart");
+    res.append('Content-Type', 'multipart/x-mixed-replace; boundary="endofthispart"');
+    res.write('\r\n');
     var params=req.query;
     var paso=0;
     var primos=[];
@@ -126,10 +130,15 @@ app.get('/ejemplo/flujo',function(req,res){
     }
     var iterador=setInterval(function(){
         paso++;
-        var data='line '+paso+(esPrimo(paso)?' es primo!':'')+'\n';
+        var data='line '+paso+(esPrimo(paso)?' es primo!':'')+'\r\n';
+        res.write('--endofthispart\r\n');
+        // res.write('Content-Type: text/plain\r\n\r\n');
+        res.write('\r\n');
         res.write(data);
+        res.write('\r\n\r\n');
         console.log(data);
         if(paso>=params.limite){
+            res.write('--endofthispart--\r\n\r\n');
             res.end();
             clearInterval(iterador);
         }

@@ -20,6 +20,7 @@
     "jade": "^1.11.0",
     "moment": "^2.10.3",
     "read-yaml-promise": ">=1.0.2",
+    "multipart-stream": "1.0.0",
 
     "extension-serve-static": "^0.1.6",
     "best-promise": ">=0.2.2"
