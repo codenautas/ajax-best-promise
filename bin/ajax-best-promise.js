@@ -43,13 +43,13 @@ AjaxBestPromise.createMethodFunction=function(method){
                 var paqueteAEnviar=Object.keys(params.data).map(function(key){
                     return key+'='+encodeURIComponent(params.data[key]);
                 }).join('&');
+                var url=params.url+((paqueteAEnviar && method!=='POST')?'?'+paqueteAEnviar:'');
+                ajax.open(method,url,true);
+                ajax.setRequestHeader('X-Requested-With','XMLHttpRequest');
                 if(method==='POST'){
-                    ajax.open(method,params.url,true);
                     ajax.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
                     ajax.send(paqueteAEnviar);
                 }else{
-                    var url=params.url+(paqueteAEnviar?'?'+paqueteAEnviar:'');
-                    ajax.open(method,url,true);
                     ajax.send();
                 }
             });
