@@ -35,9 +35,8 @@ window.addEventListener('load', function(){
         AjaxBestPromise.get({
             url:'/ejemplo/flujo',
             data:{limite:eid('cantidad_pasos').value},
-            pasoApaso:function(resultPartial){
-                eid('pasos_recibidos').textContent+=resultPartial;
-            }
+        }).onChunk(function(resultPartial){
+            eid('pasos_recibidos').textContent+=resultPartial;
         }).then(function(result){
             eid('pasos_recibidos').textContent=result;
             eid('pasos_recibidos').className='res_ok';

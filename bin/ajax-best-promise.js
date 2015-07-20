@@ -2,53 +2,69 @@ var AjaxBestPromise={};
 
 AjaxBestPromise.createMethodFunction=function(method){
     return function(params){
-        return new Promise(function(resolve,reject){
-            var ajax = new XMLHttpRequest();
-            if(!method){
-                return reject(new Error('debe indicar el method en ajax'));
-            }
-            if(params.pasoApaso){
-                var initialPos=0;
-                var endPos=0;
-                var receivePart=function(){
-                    if(endPos<ajax.responseText.length){
-                        initialPos=endPos;
-                        endPos=ajax.responseText.length;
-                        params.pasoApaso(ajax.responseText.substr(initialPos,endPos));
+        var promiseForReturn = function(chunkConsumer){
+            return new Promise(function(resolve,reject){
+                var ajax = new XMLHttpRequest();
+                if(!method){
+                    return reject(new Error('debe indicar el method en ajax'));
+                }
+                if(chunkConsumer){
+                    var initialPos=0;
+                    var endPos=0;
+                    var receivePart=function(){
+                        if(endPos<ajax.responseText.length){
+                            initialPos=endPos;
+                            endPos=ajax.responseText.length;
+                            chunkConsumer(ajax.responseText.substr(initialPos,endPos));
+                        }
+                    }
+                    // var interval = setInterval(receivePart,1000);
+                    ajax.multipart=true;
+                    ajax.onprogress=function(pe){
+                        if (ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4)
+                            return;
+                        if (ajax.readyState == 3 && ajax.status != 200)
+                            return;
+                        receivePart();
+                    };
+                }else{
+                    var receivePart=function(){};
+                }
+                ajax.onload=function(e){
+                    receivePart();
+                    // clearInterval(interval);
+                    if(ajax.status!=200){
+                        reject(new Error(ajax.status+' '+ajax.responseText));
+                    }else{
+                        resolve(ajax.responseText);
                     }
                 }
-                // var interval = setInterval(receivePart,1000);
-                ajax.multipart=true;
-                ajax.onprogress=function(pe){
-                    if (ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4)
-                        return;
-                    if (ajax.readyState == 3 && ajax.status != 200)
-                        return;
-                    receivePart();
-                };
-            }
-            ajax.onload=function(e){
-                // clearInterval(interval);
-                if(ajax.status!=200){
-                    reject(new Error(ajax.status+' '+ajax.responseText));
+                ajax.onerror=reject;
+                var paqueteAEnviar=Object.keys(params.data).map(function(key){
+                    return key+'='+encodeURIComponent(params.data[key]);
+                }).join('&');
+                if(method==='POST'){
+                    ajax.open(method,params.url,true);
+                    ajax.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+                    ajax.send(paqueteAEnviar);
                 }else{
-                    resolve(ajax.responseText);
+                    var url=params.url+(paqueteAEnviar?'?'+paqueteAEnviar:'');
+                    ajax.open(method,url,true);
+                    ajax.send();
                 }
+            });
+        };
+        return intermedialObject={
+            onChunk:function(chunkConsumer){
+                return promiseForReturn(chunkConsumer);
+            },
+            then:function(resolve,reject){
+                return promiseForReturn().then(resolve,reject);
+            },
+            'catch':function(reject){
+                return promiseForReturn().catch(reject);
             }
-            ajax.onerror=reject;
-            var paqueteAEnviar=Object.keys(params.data).map(function(key){
-                return key+'='+encodeURIComponent(params.data[key]);
-            }).join('&');
-            if(method==='POST'){
-                ajax.open(method,params.url,true);
-                ajax.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-                ajax.send(paqueteAEnviar);
-            }else{
-                var url=params.url+(paqueteAEnviar?'?'+paqueteAEnviar:'');
-                ajax.open(method,url,true);
-                ajax.send();
-            }
-        });
+        }
     }
 }
 
