@@ -1,3 +1,5 @@
+"use strict";
+
 var AjaxBestPromise={};
 
 AjaxBestPromise.createMethodFunction=function(method){
@@ -39,7 +41,12 @@ AjaxBestPromise.createMethodFunction=function(method){
                         resolve(ajax.responseText);
                     }
                 }
-                ajax.onerror=reject;
+                ajax.onerror=function(err){
+                    if(!(err instanceof Error)){
+                        err=new Error('Error boxed '+err+' '+JSON.stringify(err)+' / '+ajax);
+                    }
+                    reject(err) ;
+                }
                 var paqueteAEnviar=Object.keys(params.data).map(function(key){
                     return key+'='+encodeURIComponent(params.data[key]);
                 }).join('&');
@@ -54,7 +61,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                 }
             });
         };
-        return intermedialObject={
+        return {
             onChunk:function(chunkConsumer){
                 return promiseForReturn(chunkConsumer);
             },

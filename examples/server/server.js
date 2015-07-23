@@ -13,6 +13,21 @@ var readYaml = require('read-yaml-promise');
 var extensionServeStatic = require('extension-serve-static');
 var jade = require('jade');
 
+var karma;
+var karmaIndex=process.argv.indexOf('--karma');
+if(karmaIndex>0){
+    var karma = require('karma');
+    var karmaConfig = require('../../karma.conf.js');
+    var options;
+    karmaConfig({set:function(opts){ options=opts; }});
+    console.log('karma starting');
+    karma.server.start(options, function(exitCode) {
+        console.log('Karma has exited with ' + exitCode);
+        process.exit(exitCode);
+    });
+    console.log('karma starting',options.port);
+}
+
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -96,6 +111,14 @@ var server=app.listen(PORT, function(event) {
 });
 
 app.get('/',serveHtmlText('<h1>Ajax-best-promise example </h1>'));
+
+if(karma){
+    app.use(function(req,res,next){
+        res.append('Access-Control-Allow-Origin', '*');
+        res.append('Access-Control-Allow-Headers', 'X-Requested-With');
+        next();
+    });
+}
 
 app.get('/ejemplo/suma',function(req,res){
     var params=req.query;
