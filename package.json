@@ -27,6 +27,7 @@
     "istanbul": "~0.3.17",
     "jade": "^1.11.0",
     "karma-chrome-launcher": "^0.2.0",
+    "karma-coverage": "~0.4.2",
     "karma-firefox-launcher": "^0.1.6",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-expect": "^1.1.0",
