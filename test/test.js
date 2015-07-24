@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 
 describe("ajax-best-promise", function() {
     var fromElements = AjaxBestPromise.fromElements;
@@ -55,6 +55,18 @@ describe("ajax-best-promise", function() {
             data:{p1:7, p2:8}
         }).then(function(result){
             expect(result).to.be('15');
+            done();
+        }).catch(done);
+    });
+
+    it("receive status 400", function(done){
+        AjaxBestPromise.get({
+            url:'http://localhost:12448/ejemplo/error',
+            data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
+        }).then(function(result){
+            done(new Error('does not expect a resolved result'));
+        }).catch(function(err){
+            expect(err.message).to.match(/400 .*¡ágape<b>c&d; drop table!/);
             done();
         }).catch(done);
     });

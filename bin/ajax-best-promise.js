@@ -7,9 +7,6 @@ AjaxBestPromise.createMethodFunction=function(method){
         var promiseForReturn = function(chunkConsumer){
             return new Promise(function(resolve,reject){
                 var ajax = new XMLHttpRequest();
-                if(!method){
-                    return reject(new Error('debe indicar el method en ajax'));
-                }
                 if(chunkConsumer){
                     var initialPos=0;
                     var endPos=0;

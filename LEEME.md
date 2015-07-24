@@ -1,13 +1,21 @@
+<!-- multilang from README.md
+
+
+
+
+NO MODIFIQUE ESTE ARCHIVO. FUE GENERADO AUTOMÁTICAMENTE POR multilang.js
+
+
+
+
+-->
 # ajax-best-promise
 Ajax with best promise - Ajax with stream data
 
-<!--multilang v0 en:README.md es:LEEME.md -->
 
-<!--lang:es--]
 
 Ajax con promesas y soporte para lecturas parciales
 
-[!--lang:*-->
 
 ![designing](https://img.shields.io/badge/stability-designing-red.svg)
 [![version](https://img.shields.io/npm/v/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
@@ -19,33 +27,19 @@ Ajax con promesas y soporte para lecturas parciales
 
 <!--multilang buttons-->
 
-language: ![English](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-en.png)
-also available in:
-[![Spanish](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-es.png)](LEEME.md) - 
+idioma: ![castellano](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-es.png)
+también disponible en:
+[![inglés](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-en.png)](README.md)
 
-<!--lang:en-->
-
-## Instalation
-
-This is a **client-side** module. Download [here](https://raw.githubusercontent.com/codenautas/ajax-best-promise/master/bin/ajax-best-promise.js)
-
-<!--lang:es--]
 
 ## Instalación
 
 Este módulo corre **del lado del navegador**. [Descargar](https://raw.githubusercontent.com/codenautas/ajax-best-promise/master/bin/ajax-best-promise.js)
 
-[!--lang:*-->
 
-<!--lang:en-->
-
-## Use
-
-<!--lang:es--]
 
 ## Uso
 
-[!--lang:*-->
 
 ```js
 AjaxBestPromise.get({
@@ -58,7 +52,6 @@ AjaxBestPromise.get({
 });
 ```
 
-<!--lang:*-->
 
 ## Licence
 
