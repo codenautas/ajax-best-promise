@@ -15,6 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'node_modules/es6-promise/dist/es6-promise.min.js',
       'bin/*.js',
       'test/*.js'
     ],
@@ -56,7 +57,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: [(process.env.TRAVIS?'Firefox':'Chrome'), 'PhantomJS'],
+    browsers: ['Firefox', 'PhantomJS'].concat((process.env.TRAVIS?[]:['Chrome'])),
 
 
     // Continuous Integration mode

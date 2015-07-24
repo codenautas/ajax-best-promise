@@ -21,10 +21,11 @@ if(karmaIndex>0){
     var options;
     karmaConfig({set:function(opts){ options=opts; }});
     console.log('karma starting');
-    karma.server.start(options, function(exitCode) {
+    var karmaServer = new karma.Server(options, function(exitCode) {
         console.log('Karma has exited with ' + exitCode);
         process.exit(exitCode);
-    });
+    })
+    karmaServer.start();
     console.log('karma starting',options.port);
 }
 
