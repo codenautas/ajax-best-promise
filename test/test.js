@@ -24,7 +24,7 @@ describe("ajax-best-promise", function() {
     });
 
     it("send and receive normal message with ajax", function(done){
-        expect(XMLHttpRequest.toString()).to.eql("function XMLHttpRequest() { [native code] }");
+        expect(XMLHttpRequest.toString()).to.match(/function XMLHttpRequest\(\)[\s|\n]*{[\s|\n]*\[native code\][\s|\n]*}/);
         var ajax = new XMLHttpRequest();
         ajax.open('GET', 'http://localhost:12448/ejemplo/suma?p1=7&p2=8');
         ajax.setRequestHeader('X-Requested-With','XMLHttpRequest');
