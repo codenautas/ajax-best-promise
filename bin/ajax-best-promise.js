@@ -10,11 +10,13 @@ AjaxBestPromise.createMethodFunction=function(method){
                 if(chunkConsumer){
                     var initialPos=0;
                     var endPos=0;
-                    var receivePart=function(){
+                    var receivePart=function(isLastPart){
                         if(endPos<ajax.responseText.length){
                             initialPos=endPos;
                             endPos=ajax.responseText.length;
-                            chunkConsumer(ajax.responseText.substr(initialPos,endPos));
+                            chunkConsumer(ajax.responseText.substr(initialPos,endPos),isLastPart);
+                        }else if(isLastPart){
+                            chunkConsumer('',isLastPart);
                         }
                     }
                     // var interval = setInterval(receivePart,1000);
@@ -26,7 +28,6 @@ AjaxBestPromise.createMethodFunction=function(method){
                         /* istanbul ignore next */ 
                         if (ajax.status != 200)
                             return;
-                        console.log('CHUNK', ajax);
                         receivePart();
                     };
                 }else{
@@ -37,7 +38,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                     if(ajax.status!=200){
                         reject(new Error(ajax.status+' '+ajax.responseText));
                     }else{
-                        receivePart();
+                        receivePart(true);
                         resolve(ajax.responseText);
                     }
                 }
@@ -62,7 +63,23 @@ AjaxBestPromise.createMethodFunction=function(method){
                 }
             });
         };
-        return {
+        var intermediateObject={
+            onJson: function(jsonConsumer){
+                return intermediateObject.onLine(function(line){
+                    jsonConsumer(JSON.parse(line));
+                });
+            },
+            onLine: function(lineConsumer){
+                var remain="";
+                return promiseForReturn(function chunkConsumer(chunk,isLastPart){
+                    remain+=chunk;
+                    var slices=remain.split('\n');
+                    while(slices.length>(isLastPart?0:1)){
+                        lineConsumer(slices.shift(),!slices.length);
+                    }
+                    remain=slices.shift();
+                });
+            },
             onChunk:function(chunkConsumer){
                 return promiseForReturn(chunkConsumer);
             },
@@ -72,7 +89,8 @@ AjaxBestPromise.createMethodFunction=function(method){
             'catch':function(reject){
                 return promiseForReturn().catch(reject);
             }
-        }
+        };
+        return intermediateObject;
     }
 }
 

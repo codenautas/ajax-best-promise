@@ -154,4 +154,21 @@ describe("ajax-best-promise", function() {
             done();
         }).catch(done);
     });
+    
+    it("receive json stream", function(done){
+        var expected=["one",2,3,['∞'],{alpha:'α', beta:'β', gamma:'γ'}, "¡águila!"];
+        var obtained=[];
+        AjaxBestPromise.get({
+            url:'http://localhost:12448/ejemplo/json-stream',
+            data:{
+                data:JSON.stringify(expected.slice(3)),
+                delay:150
+            }
+        }).onJson(function(json){
+            obtained.push(json);
+        }).then(function(result){
+            expect(obtained).to.eql(expected);
+            done();
+        }).catch(done);
+    });
 });

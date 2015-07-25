@@ -62,7 +62,8 @@ AjaxBestPromise.get({
 
 ## Chunked data
 
-The **main adventage** of **ajax-best-promise** is the ability for process partial data
+The **main adventage** of **ajax-best-promise** is the ability for process partial data 
+in three flavors: `onChunk`, `onLine`, `onJson`
 
 <!--lang:es--]
 
@@ -70,7 +71,10 @@ The **main adventage** of **ajax-best-promise** is the ability for process parti
 
 La principal ventaja de este módulo es la capacidad de definir
 un manejador para ir recibiendo el texto desde el servidor 
-a medida que lo va mandando con la función `onChunk`
+a medida que lo va mandando con la función 
+`onChunk`, o línea a línea con `onLine` o objeto a objeto JSON con `onJson`.
+
+`onJson` espera un flujo de objetos JSON, que vienen uno por línea
 
 [!--lang:*-->
 
