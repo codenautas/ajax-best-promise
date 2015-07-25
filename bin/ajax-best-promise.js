@@ -24,13 +24,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                         if (ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4)
                             return;
                         /* istanbul ignore next */ 
-                        if (ajax.readyState == 2 && ajax.status != 200)
-                            return;
-                        /* istanbul ignore next */ 
-                        if (ajax.readyState == 3 && ajax.status != 200)
-                            return;
-                        /* istanbul ignore next */ 
-                        if (ajax.readyState == 4 && ajax.status != 200)
+                        if (ajax.status != 200)
                             return;
                         console.log('CHUNK', ajax);
                         receivePart();
