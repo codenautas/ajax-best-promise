@@ -58,6 +58,35 @@ AjaxBestPromise.get({
 });
 ```
 
+<!--lang:en-->
+
+## Chunked data
+
+The **main adventage** of **ajax-best-promise** is the ability for process partial data
+
+<!--lang:es--]
+
+## Lectura parcial
+
+La principal ventaja de este módulo es la capacidad de definir
+un manejador para ir recibiendo el texto desde el servidor 
+a medida que lo va mandando con la función `onChunk`
+
+[!--lang:*-->
+
+```js
+AjaxBestPromise.get({
+    url:'http://example.com:3333/service/do.php',
+    data:{ alfa: 1, betha: 2}
+}).onChunk(function(partialText){
+    console.log(partialText);
+}).then(function(){
+    console.log('done!');
+}).catch(function(err){
+    console.log(err);
+});
+```
+
 <!--lang:*-->
 
 ## Licence
