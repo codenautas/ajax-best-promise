@@ -15,12 +15,34 @@ describe("ajax-best-promise", function() {
     
     it("get input values  fromElements", function() {
         var fixture = '<div id=fixture><input id="param1" value="one">' + 
-          '<input id="param2" value="two"></div>';
+          '<input id="param2" value="two">'+
+          '<span id=elementWithNoValue>The span text</span>'+
+          '</div>';
         document.body.insertAdjacentHTML('afterbegin', fixture);
 
         expect(fromElements).to.be.ok();
         expect(fromElements).to.be.a(Function);
-        expect(fromElements(['param1', document.getElementById('param2')])).to.eql({param1:'one', param2:'two'});
+        expect(fromElements([
+            'param1', document.getElementById('param2'),
+            'elementWithNoValue',
+        ])).to.eql({
+            param1:'one', 
+            param2:'two',
+            elementWithNoValue:'The span text',
+        });
+    });
+
+    it("control parameters for fromElements", function() {
+        var fixture = '<div id=fixture><input id="param1" value="one">' + 
+          '<input id="param2" value="two"></div>';
+        document.body.insertAdjacentHTML('afterbegin', fixture);
+
+        try{
+            fromElements(['inexistent']);
+            throw new Error('must throw a error because inexistente parameter');
+        }catch(err){
+            expect(err.message).to.match(/AjaxBestPromise.fromElements must receive a list of elements/);
+        }
     });
 
     it("send and receive normal message with ajax", function(done){

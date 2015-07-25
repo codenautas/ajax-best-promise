@@ -86,7 +86,12 @@ AjaxBestPromise.fromElements=function fromElements(listOfElementsOrIds){
         if(!element || !(element instanceof Element)){
             throw new Error('AjaxBestPromise.fromElements must receive a list of elements');
         }
-        ajaxParameters[element.id]=element.value;
+        if('value' in element){
+            var value=element.value;
+        }else{
+            var value=element.textContent;
+        }
+        ajaxParameters[element.id]=value;
     });
     return ajaxParameters;
 }
