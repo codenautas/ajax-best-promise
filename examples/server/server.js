@@ -127,6 +127,11 @@ app.get('/ejemplo/suma',function(req,res){
     res.send((Number(req.query.p1)+Number(req.query.p2)).toString());
 });
 
+app.post('/ejemplo/post/upper',function(req,res){
+    var params=req.body;
+    res.send(params.text.toUpperCase());
+});
+
 app.get('/ejemplo/error',function(req,res){
     var params=req.query;
     // no es lo mejor devolverle los datos al cliente

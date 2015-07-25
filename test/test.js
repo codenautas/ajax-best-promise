@@ -20,7 +20,7 @@ describe("ajax-best-promise", function() {
 
         expect(fromElements).to.be.ok();
         expect(fromElements).to.be.a(Function);
-        expect(fromElements(['param1', 'param2'])).to.eql({param1:'one', param2:'two'});
+        expect(fromElements(['param1', document.getElementById('param2')])).to.eql({param1:'one', param2:'two'});
     });
 
     it("send and receive normal message with ajax", function(done){
@@ -59,6 +59,16 @@ describe("ajax-best-promise", function() {
         }).catch(done);
     });
 
+    it("post utf8 message", function(done){
+        AjaxBestPromise.post({
+            url:'http://localhost:12448/ejemplo/post/upper',
+            data:{text:'¡águila, pingüino, tatú!'}
+        }).then(function(result){
+            expect(result).to.be('¡ÁGUILA, PINGÜINO, TATÚ!');
+            done();
+        }).catch(done);
+    });
+
     it("receive status 400", function(done){
         AjaxBestPromise.get({
             url:'http://localhost:12448/ejemplo/error',
@@ -67,6 +77,20 @@ describe("ajax-best-promise", function() {
             done(new Error('does not expect a resolved result'));
         }).catch(function(err){
             expect(err.message).to.match(/400 .*¡ágape<b>c&d; drop table!/);
+            done();
+        }).catch(done);
+    });
+
+    it("receive status 404 not found", function(done){
+        AjaxBestPromise.get({
+            url:'http://localhost:12448/ejemplo/inexistente',
+            data:{a: 101}
+        }).then(function(result){
+            done(new Error('does not expect a resolved result'));
+        }).catch(function(err){
+            if(!window.chrome && !navigator.mozApps){
+                expect(err.message).to.match(/404 Cannot GET \/ejemplo\/inexistente\?a=101/);
+            }
             done();
         }).catch(done);
     });
