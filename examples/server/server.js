@@ -163,5 +163,5 @@ app.get('/ejemplo/flujo',function(req,res){
             res.end();
             clearInterval(iterador);
         }
-    },1000);
+    },params.delay||1000);
 });

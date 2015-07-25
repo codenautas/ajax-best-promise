@@ -116,4 +116,22 @@ describe("ajax-best-promise", function() {
             done();
         }).catch(done);
     });
+    
+    it("receive chunked data", function(done){
+        var expected=[
+            'line 1\n',
+            'line 2 es primo!\n',
+            'line 3 es primo!\n'
+        ];
+        var obtained=[];
+        AjaxBestPromise.get({
+            url:'http://localhost:12448/ejemplo/flujo',
+            data:{limite:3, delay:200}
+        }).onChunk(function(chunk){
+            obtained.push(chunk);
+        }).then(function(result){
+            expect(obtained).to.eql(expected);
+            done();
+        }).catch(done);
+    });
 });
