@@ -118,11 +118,7 @@ describe("ajax-best-promise", function() {
     });
     
     it("receive chunked data", function(done){
-        var expected=[
-            'line 1\n',
-            'line 2 es primo!\n',
-            'line 3 es primo!\n'
-        ];
+        var expected=/line 1\n-?line 2 es primo!\n-line 3 es primo!\n/;
         var obtained=[];
         AjaxBestPromise.get({
             url:'http://localhost:12448/ejemplo/flujo',
@@ -130,7 +126,7 @@ describe("ajax-best-promise", function() {
         }).onChunk(function(chunk){
             obtained.push(chunk);
         }).then(function(result){
-            expect(obtained).to.eql(expected);
+            expect(obtained.join('-')).to.match(expected);
             done();
         }).catch(done);
     });
