@@ -20,25 +20,35 @@ AjaxBestPromise.createMethodFunction=function(method){
                     // var interval = setInterval(receivePart,1000);
                     ajax.multipart=true;
                     ajax.onprogress=function(pe){
+                        /* istanbul ignore next */ 
                         if (ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4)
                             return;
+                        /* istanbul ignore next */ 
+                        if (ajax.readyState == 2 && ajax.status != 200)
+                            return;
+                        /* istanbul ignore next */ 
                         if (ajax.readyState == 3 && ajax.status != 200)
                             return;
+                        /* istanbul ignore next */ 
+                        if (ajax.readyState == 4 && ajax.status != 200)
+                            return;
+                        console.log('CHUNK', ajax);
                         receivePart();
                     };
                 }else{
                     var receivePart=function(){};
                 }
                 ajax.onload=function(e){
-                    receivePart();
                     // clearInterval(interval);
                     if(ajax.status!=200){
                         reject(new Error(ajax.status+' '+ajax.responseText));
                     }else{
+                        receivePart();
                         resolve(ajax.responseText);
                     }
                 }
                 ajax.onerror=function(err){
+                    /* istanbul ignore next */ 
                     if(!(err instanceof Error)){
                         err=new Error('Error boxed '+err+' '+JSON.stringify(err)+' / '+ajax);
                     }

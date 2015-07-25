@@ -130,4 +130,28 @@ describe("ajax-best-promise", function() {
             done();
         }).catch(done);
     });
+
+    it("error in a chunked post", function(done){
+        AjaxBestPromise.post({
+            url:'http://localhost:12448/ejemplo/error',
+            data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
+        }).onChunk(function(chunk){
+            done(new Error('does not expect a chunk result: '+chunk));
+        }).then(function(result){
+            done(new Error('does not expect a resolved result'));
+        }).catch(function(err){
+            expect(err.message).to.match(/404 Cannot POST \/ejemplo\/error/);
+            done();
+        }).catch(done);
+    });
+
+    it("catchs error directly in a chunked post", function(done){
+        AjaxBestPromise.post({
+            url:'http://localhost:12448/ejemplo/error',
+            data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
+        }).catch(function(err){
+            expect(err.message).to.match(/404 Cannot POST \/ejemplo\/error/);
+            done();
+        }).catch(done);
+    });
 });
