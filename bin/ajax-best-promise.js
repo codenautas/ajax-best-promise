@@ -97,8 +97,15 @@ AjaxBestPromise.createMethodFunction=function(method){
 AjaxBestPromise.post=AjaxBestPromise.createMethodFunction('POST');
 AjaxBestPromise.get=AjaxBestPromise.createMethodFunction('GET');
 
-AjaxBestPromise.fromElements=function fromElements(listOfElementsOrIds){
-    var ajaxParameters={};
+AjaxBestPromise.fromElements=function fromElements(listOfElementsOrIds,addParam,base){
+    var actual=base;
+    if(typeof actual==="undefined"){
+        actual={};
+    }
+    var addParam=addParam||function(actual,name,value){
+        actual[name]=value;
+        return actual;
+    }
     listOfElementsOrIds.forEach(function(elementOrId){
         if(typeof elementOrId == 'string'){
             var element=document.getElementById(elementOrId);
@@ -113,7 +120,13 @@ AjaxBestPromise.fromElements=function fromElements(listOfElementsOrIds){
         }else{
             var value=element.textContent;
         }
-        ajaxParameters[element.id]=value;
+        actual=addParam(actual,element.id,value);
     });
-    return ajaxParameters;
+    return actual;
+}
+
+AjaxBestPromise.completePath=function completePath(listOfElementsOrIds){
+    return AjaxBestPromise.fromElements(listOfElementsOrIds,function(actual,name,value){
+        return (!actual?'':actual+'/')+encodeURI(value);
+    },'');
 }

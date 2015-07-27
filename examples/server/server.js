@@ -35,7 +35,6 @@ app.use(bodyParser.urlencoded({extended:true}));
 function serveJade(pathToFile,anyFile){
     return function(req,res,next){
         if(path.extname(req.path)){
-            console.log('req.path',req.path);
             return next();
         }
         Promise.resolve().then(function(){
@@ -158,7 +157,6 @@ app.get('/ejemplo/flujo',function(req,res){
         paso++;
         var data='line '+paso+(esPrimo(paso)?' es primo!':'')+'\n';
         res.write(data);
-        console.log(data);
         if(paso>=params.limite){
             res.end();
             clearInterval(iterador);
@@ -177,7 +175,6 @@ app.get('/ejemplo/json-stream',function(req,res){
     var iterador=setInterval(function(){
         res.write(chunks[step]);
         step++;
-        console.log(chunks[step]);
         if(step>=chunks.length){
             res.end();
             clearInterval(iterador);
