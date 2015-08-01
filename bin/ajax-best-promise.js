@@ -73,9 +73,9 @@ AjaxBestPromise.createMethodFunction=function(method){
                 var remain="";
                 return promiseForReturn(function chunkConsumer(chunk,isLastPart){
                     remain+=chunk;
-                    var slices=remain.split('\n');
+                    var slices=remain.split(/(\r\n|\r(?!\n)|\n)/);
                     while(slices.length>(isLastPart?0:1)){
-                        lineConsumer(slices.shift(),!slices.length);
+                        lineConsumer(slices.shift()+(slices.length?slices.shift():''),!slices.length);
                     }
                     remain=slices.shift();
                 });

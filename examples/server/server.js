@@ -169,7 +169,7 @@ app.get('/ejemplo/json-stream',function(req,res){
     var dataReadyForStream=JSON.parse(params.data).map(function(element){
         return JSON.stringify(element);
     }).join('\n');
-    var chunks=['"one"\n','2\n3\n',dataReadyForStream.substr(0,10),dataReadyForStream.substr(10)];
+    var chunks=['"one"\n','2\r3\r\n',dataReadyForStream.substr(0,10),dataReadyForStream.substr(10),'',''];
     var step=0;
     res.append('Content-Type', 'application/octet-stream'); // por chrome bug segun: http://stackoverflow.com/questions/3880381/xmlhttprequest-responsetext-while-loading-readystate-3-in-chrome
     var iterador=setInterval(function(){

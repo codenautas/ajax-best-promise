@@ -158,6 +158,26 @@ describe("ajax-best-promise", function() {
         }).catch(done);
     });
     
+    it("receive line stream", function(done){
+        var emmited =[['∞'],{alpha:'α', beta:'β', gamma:'γ'}, false, null, "¡águila!", "last"];
+        var expected=['"one"\n','2\r','3\r\n'].concat(emmited.map(function(o){ 
+            return JSON.stringify(o)+(o==='last'?'':'\n');
+        }));
+        var obtained=[];
+        AjaxBestPromise.get({
+            url:'http://localhost:12448/ejemplo/json-stream',
+            data:{
+                data:JSON.stringify(emmited),
+                delay:150
+            }
+        }).onLine(function(line){
+            obtained.push(line);
+        }).then(function(result){
+            expect(obtained).to.eql(expected);
+            done();
+        }).catch(done);
+    });
+    
     it("receive json stream", function(done){
         var expected=["one",2,3,['∞'],{alpha:'α', beta:'β', gamma:'γ'}, "¡águila!"];
         var obtained=[];
