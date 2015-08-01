@@ -31,7 +31,7 @@ module.exports = function(config) {
     preprocessors: {
       'bin/*.js': ['coverage']
     },
-    coverageReporter: {
+    coverageReporter: process.env.TRAVIS||true?{type:'lcov'}:{
       type : 'html',
       dir : 'coverage/'
     },
