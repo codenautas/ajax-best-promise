@@ -17,8 +17,9 @@ Ajax with best promise - Ajax with stream data
 Ajax con promesas y soporte para lecturas parciales
 
 
-![designing](https://img.shields.io/badge/stability-designing-red.svg)
-[![version](https://img.shields.io/npm/v/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
+<!-- cucardas -->
+![extending](https://img.shields.io/badge/stability-extending-orange.svg)
+[![npm-version](https://img.shields.io/npm/v/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
 [![downloads](https://img.shields.io/npm/dm/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
 [![build](https://img.shields.io/travis/codenautas/ajax-best-promise/master.svg)](https://travis-ci.org/codenautas/ajax-best-promise)
 [![coverage](https://img.shields.io/coveralls/codenautas/ajax-best-promise/master.svg)](https://coveralls.io/r/codenautas/ajax-best-promise)
