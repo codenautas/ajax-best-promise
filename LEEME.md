@@ -1,21 +1,13 @@
-<!-- multilang from README.md
-
-
-
-
-NO MODIFIQUE ESTE ARCHIVO. FUE GENERADO AUTOMÁTICAMENTE POR multilang.js
-
-
-
-
--->
+<!--multilang v0 es:LEEME.md en:README.md -->
 # ajax-best-promise
-Ajax with best promise - Ajax with stream data
 
-
-
+<!--lang:es-->
 Ajax con promesas y soporte para lecturas parciales
 
+<!--lang:es-->
+Ajax with best promise - Ajax with stream data
+
+[!--lang:*-->
 
 <!-- cucardas -->
 ![extending](https://img.shields.io/badge/stability-extending-orange.svg)
@@ -29,18 +21,32 @@ Ajax con promesas y soporte para lecturas parciales
 <!--multilang buttons-->
 
 idioma: ![castellano](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-es.png)
-también disponible en:
+también disponbile en:
 [![inglés](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-en.png)](README.md)
 
+<!--lang:es-->
 
 ## Instalación
 
 Este módulo corre **del lado del navegador**. [Descargar](https://raw.githubusercontent.com/codenautas/ajax-best-promise/master/bin/ajax-best-promise.js)
 
+<!--lang:en--]
 
+## Instalation
+
+This is a **client-side** module. Download [here](https://raw.githubusercontent.com/codenautas/ajax-best-promise/master/bin/ajax-best-promise.js)
+
+[!--lang:*-->
+
+<!--lang:es-->
 
 ## Uso
 
+<!--lang:en--]
+
+## Use
+
+[!--lang:*-->
 
 ```js
 AjaxBestPromise.get({
@@ -53,6 +59,7 @@ AjaxBestPromise.get({
 });
 ```
 
+<!--lang:es-->
 
 ## Lectura parcial
 
@@ -63,6 +70,14 @@ a medida que lo va mandando con la función
 
 `onJson` espera un flujo de objetos JSON, que vienen uno por línea
 
+<!--lang:en--]
+
+## Chunked data
+
+The **main adventage** of **ajax-best-promise** is the ability for process partial data 
+in three flavors: `onChunk`, `onLine`, `onJson`
+
+[!--lang:*-->
 
 ```js
 AjaxBestPromise.get({
@@ -77,12 +92,12 @@ AjaxBestPromise.get({
 });
 ```
 
+<!--lang:es-->
+## Licencia
 
+<!--lang:en--]
 ## Licence
 
+[!--lang:*-->
+
 MIT
-
-.............................
-
-
-
