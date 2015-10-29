@@ -25,7 +25,7 @@
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "fs-promise": "~0.3.1",
-    "istanbul": "~0.3.18",
+    "istanbul": "~0.4.0",
     "jade": "^1.11.0",
     "karma-chrome-launcher": "^0.2.0",
     "karma-coverage": "~0.5.0",
@@ -35,7 +35,7 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-safari-launcher": "^0.1.1",
     "lodash": "^3.10.1",
-    "mocha": "~2.2.5",
+    "mocha": "~2.3.3",
     "moment": "^2.10.6",
     "read-yaml-promise": ">=1.0.2",
     
@@ -58,7 +58,7 @@
   },
   "qa-control": {
     "package-version": "0.0.1",
-    "coverage": 90,
+    "coverage": 98,
     "run-in": "client",
     "stability": "extending",
     "type": "lib"

@@ -4,7 +4,7 @@
 <!--lang:es-->
 Ajax con promesas y soporte para lecturas parciales
 
-<!--lang:es-->
+<!--lang:en--]
 Ajax with best promise - Ajax with stream data
 
 [!--lang:*-->
@@ -21,7 +21,7 @@ Ajax with best promise - Ajax with stream data
 <!--multilang buttons-->
 
 idioma: ![castellano](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-es.png)
-también disponbile en:
+también disponible en:
 [![inglés](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-en.png)](README.md)
 
 <!--lang:es-->
