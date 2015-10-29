@@ -57,7 +57,7 @@
     "curly": true
   },
   "qa-control": {
-    "package-version": "0.0.1",
+    "package-version": "0.0.2",
     "coverage": 98,
     "run-in": "client",
     "stability": "extending",
