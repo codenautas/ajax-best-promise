@@ -121,11 +121,12 @@ describe("ajax-best-promise", function() {
     });
     
     it("receive chunked data", function(done){
+        this.timeout(4000);
         var expected=/line 1\n-?line 2 es primo!\n-line 3 es primo!\n/;
         var obtained=[];
         AjaxBestPromise.get({
             url:'http://localhost:12448/ejemplo/flujo',
-            data:{limite:3, delay:200}
+            data:{limite:3, delay:400}
         }).onChunk(function(chunk){
             obtained.push(chunk);
         }).then(function(result){
@@ -135,6 +136,7 @@ describe("ajax-best-promise", function() {
     });
 
     it("error in a chunked post", function(done){
+        this.timeout(4000);
         AjaxBestPromise.post({
             url:'http://localhost:12448/ejemplo/error',
             data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
