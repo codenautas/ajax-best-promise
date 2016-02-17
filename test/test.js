@@ -161,6 +161,7 @@ describe("ajax-best-promise", function() {
     });
     
     it("receive line stream", function(done){
+        this.timeout(4000);
         var emmited =[['∞'],{alpha:'α', beta:'β', gamma:'γ'}, false, null, "¡águila!", "last"];
         var expected=['"one"\n','2\r','3\r\n'].concat(emmited.map(function(o){ 
             return JSON.stringify(o)+(o==='last'?'':'\n');
@@ -181,6 +182,7 @@ describe("ajax-best-promise", function() {
     });
     
     it("receive json stream", function(done){
+        this.timeout(4000);
         var expected=["one",2,3,['∞'],{alpha:'α', beta:'β', gamma:'γ'}, "¡águila!"];
         var obtained=[];
         AjaxBestPromise.get({
