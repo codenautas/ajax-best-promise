@@ -1,9 +1,31 @@
 "use strict";
 /*jshint eqnull:true */
 /*jshint globalstrict:true */
-/*jshint browser:true */
+/*jshint node:true */
 
+(function codenautasModuleDefinition(root, name, factory) {
+    /* global define */
+    /* istanbul ignore next */
+    if(typeof root.globalModuleName !== 'string'){
+        root.globalModuleName = name;
+    }
+    /* istanbul ignore next */
+    if(typeof exports === 'object' && typeof module === 'object'){
+        module.exports = factory();
+    }else if(typeof define === 'function' && define.amd){
+        define(factory);
+    }else if(typeof exports === 'object'){
+        exports[root.globalModuleName] = factory();
+    }else{
+        root[root.globalModuleName] = factory();
+    }
+    root.globalModuleName = null;
+})(/*jshint -W040 */this, 'AjaxBestPromise', function() {
+/*jshint +W040 */
+
+/*jshint -W004 */
 var AjaxBestPromise = {};
+/*jshint +W004 */
 
 /* global Promise */
 
@@ -140,3 +162,7 @@ AjaxBestPromise.completePath=function completePath(listOfElementsOrIds){
         return (!actual?'':actual+'/')+encodeURI(value);
     },'');
 };
+
+return AjaxBestPromise;
+
+});
