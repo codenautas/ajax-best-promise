@@ -58,8 +58,18 @@
     "forin": true,
     "curly": true
   },
+  "eslintConfig":{
+    "env": {
+      "node": false
+    },
+    "rules": {
+      "strict": 0,
+      "no-console": 1,
+      "no-unused-vars": 1
+    }
+  },
   "qa-control": {
-    "package-version": "0.0.2",
+    "package-version": "0.1.4",
     "coverage": 98,
     "run-in": "both",
     "stability": "extending",

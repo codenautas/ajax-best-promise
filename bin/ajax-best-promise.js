@@ -28,12 +28,13 @@ var AjaxBestPromise = {};
 /*jshint +W004 */
 
 /* global Promise */
-
 AjaxBestPromise.createMethodFunction=function(method){
     return function(params){
         var promiseForReturn = function(chunkConsumer){
             return new Promise(function(resolve,reject){
+                /*jshint -W117 */
                 var ajax = new XMLHttpRequest();
+                /*jshint +W117 */
                 var receivePart;
                 if(chunkConsumer){
                     var initialPos=0;
@@ -49,7 +50,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                     };
                     // var interval = setInterval(receivePart,1000);
                     ajax.multipart=true;
-                    ajax.onprogress=function(pe){
+                    ajax.onprogress=function(/*pe*/){
                         /* istanbul ignore next */ 
                         if (ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4){
                             return;
@@ -63,7 +64,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                 }else{
                     receivePart=function(){};
                 }
-                ajax.onload=function(e){
+                ajax.onload=function(/*e*/){
                     // clearInterval(interval);
                     if(ajax.status!=200){
                         reject(new Error(ajax.status+' '+ajax.responseText));
@@ -139,13 +140,17 @@ AjaxBestPromise.fromElements=function fromElements(listOfElementsOrIds,addParam,
     listOfElementsOrIds.forEach(function(elementOrId){
         var element;
         if(typeof elementOrId == 'string'){
+            /*jshint -W117 */
             element=document.getElementById(elementOrId);
+            /*jshint +W117 */
         }else{
             element=elementOrId;
         }
+        /*jshint -W117 */
         if(!element || !(element instanceof Element)){
             throw new Error('AjaxBestPromise.fromElements must receive a list of elements');
         }
+        /*jshint +W117 */
         var value;
         if('value' in element){
             value=element.value;
