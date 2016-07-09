@@ -58,6 +58,24 @@ AjaxBestPromise.get({
 });
 ```
 
+
+## Error handler
+
+Other **adventage** of **ajax-best-promise** is the ability for reconstruct the error object.
+
+
+```js
+AjaxBestPromise.get({
+    url:'http://inexistent.com.ux/',
+    data:{ alfa: 1, betha: 2}
+}).then(function(result){
+    console.log(result);
+}).catch(function(err){
+    console.log(err); // 404 Cannot GET inexistent.com.ux
+    console.log(err.status); // 404
+});
+```
+
 ## Licence
 
 

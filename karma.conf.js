@@ -29,7 +29,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'bin/*.js': ['coverage']
+      'bin/*.js': !!process.env.SINGLE_RUN?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
     },
     coverageReporter: process.env.TRAVIS||true?{type:'lcov'}:{
       type : 'html',
@@ -62,7 +62,12 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Firefox', 'PhantomJS'].concat((process.env.TRAVIS?[]:['Chrome','Safari','IE'])),
-
+    /* NO CAMBIAR MÁS BROWSERS DIRECTO DESDE ACÁ, INVOCAR DESDE LA LÍNEA DE PARÁMETROS ASÍ:
+    npm run infinito -- --browsers Chrome,PhantomJS
+    npm run infinito -- --browsers Chrome
+    npm run infinito -- --browsers Firefox,Safari,Chrome
+    npm run infinito -- --browsers Firefox,Safari,Chrome,IE,PhantomJS
+    */
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

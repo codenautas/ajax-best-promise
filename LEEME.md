@@ -94,6 +94,36 @@ AjaxBestPromise.get({
 ```
 
 <!--lang:es-->
+
+## Manejo de errores
+
+Otra ventaja importante es la reconstrucción de los errores.
+**La llamada devolverá un error en las situaciones lógicas donde uno espera que sea error**
+(no como el AJAX clásico que considera normal recibir un error 403)
+
+Además el objeto error tiene la propiedad status y, cuando se puede deducir también code.
+
+<!--lang:en--]
+
+## Error handler
+
+Other **adventage** of **ajax-best-promise** is the ability for reconstruct the error object.
+
+[!--lang:*-->
+
+```js
+AjaxBestPromise.get({
+    url:'http://inexistent.com.ux/',
+    data:{ alfa: 1, betha: 2}
+}).then(function(result){
+    console.log(result);
+}).catch(function(err){
+    console.log(err); // 404 Cannot GET inexistent.com.ux
+    console.log(err.status); // 404
+});
+```
+
+<!--lang:es-->
 ## Licencia
 
 <!--lang:en--]

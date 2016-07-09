@@ -67,7 +67,7 @@ describe("ajax-best-promise", function() {
         };
         ajax.onerror=function(err){
             if(!(err instanceof Error)){
-                err = new Error('boxed ERR:'+err+' '+JSON.stringify(err));
+                err = new Error('BOXED ERR:'+err+' '+JSON.stringify(err));
             }
             done(err);
         }
@@ -102,9 +102,40 @@ describe("ajax-best-promise", function() {
             done(new Error('does not expect a resolved result'));
         }).catch(function(err){
             expect(err.message).to.match(/400 .*¡ágape<b>c&d; drop table!/);
+            expect(err.status).to.be(400);
             done();
         }).catch(done);
     });
+
+    it("receive status and code", function(done){
+        AjaxBestPromise.get({
+            url:'http://localhost:12448/ejemplo/error-code',
+            data:{}
+        }).then(function(result){
+            done(new Error('does not expect a resolved result'));
+        }).catch(function(err){
+            expect(err.message).to.eql('403 ErrOr A901b: this is a message');
+            expect(err.status).to.be(403);
+            expect(err.code).to.be('A901b');
+            done();
+        }).catch(done);
+    });
+
+    it("receive status 404 not found", function(done){
+        AjaxBestPromise.get({
+            url:'http://inexistent.com.ux/',
+            data:{a: 101}
+        }).then(function(result){
+            done(new Error('does not expect a resolved result'));
+        }).catch(function(err){
+            // if(!window.chrome && !navigator.mozApps){
+                expect(err.message).to.match(/404 Cannot GET .*inexistent.com.ux/);
+                expect(err.status).to.be(404);
+            //}
+            done();
+        }).catch(done);
+    });
+   
 
     it("receive status 404 not found", function(done){
         AjaxBestPromise.get({
@@ -113,16 +144,17 @@ describe("ajax-best-promise", function() {
         }).then(function(result){
             done(new Error('does not expect a resolved result'));
         }).catch(function(err){
-            if(!window.chrome && !navigator.mozApps){
-                expect(err.message).to.match(/404 Cannot GET \/ejemplo\/inexistente\?a=101/);
-            }
+            // if(!window.chrome && !navigator.mozApps){
+                expect(err.message).to.match(/404 Cannot GET .*\/ejemplo\/inexistente/);
+                expect(err.status).to.be(404);
+            //}
             done();
         }).catch(done);
     });
     
     it("receive chunked data", function(done){
         this.timeout(4000);
-        var expected=/line 1\n-?line 2 es primo!\n-line 3 es primo!\n/;
+        var expected=/line 1\n-?line 2 es primo!\n-?line 3 es primo!\n/;
         var obtained=[];
         AjaxBestPromise.get({
             url:'http://localhost:12448/ejemplo/flujo',
@@ -146,6 +178,7 @@ describe("ajax-best-promise", function() {
             done(new Error('does not expect a resolved result'));
         }).catch(function(err){
             expect(err.message).to.match(/404 Cannot POST \/ejemplo\/error/);
+            expect(err.status).to.be(404);
             done();
         }).catch(done);
     });
@@ -156,6 +189,7 @@ describe("ajax-best-promise", function() {
             data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
         }).catch(function(err){
             expect(err.message).to.match(/404 Cannot POST \/ejemplo\/error/);
+            expect(err.status).to.be(404);
             done();
         }).catch(done);
     });

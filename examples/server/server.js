@@ -11,7 +11,7 @@ var fs = require('fs-promise');
 var path = require('path');
 var readYaml = require('read-yaml-promise');
 var extensionServeStatic = require('extension-serve-static');
-var jade = require('jade');
+var jade = require('pug');
 
 var karma;
 var karmaIndex=process.argv.indexOf('--karma');
@@ -144,6 +144,11 @@ app.get('/ejemplo/error',function(req,res){
     var params=req.query;
     // no es lo mejor devolverle los datos al cliente
     res.status(400).send(JSON.stringify({message:'invalid parameters', data:req.query.p_valor_malo}));
+});
+
+app.get('/ejemplo/error-code',function(req,res){
+    res.status(403);
+    res.end('ErrOr A901b: this is a message');
 });
 
 app.get('/ejemplo/flujo',function(req,res){

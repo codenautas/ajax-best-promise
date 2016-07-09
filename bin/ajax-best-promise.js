@@ -67,7 +67,13 @@ AjaxBestPromise.createMethodFunction=function(method){
                 ajax.onload=function(/*e*/){
                     // clearInterval(interval);
                     if(ajax.status!=200){
-                        reject(new Error(ajax.status+' '+ajax.responseText));
+                        var error = Error(ajax.status+' '+ajax.responseText);
+                        error.status = ajax.status;
+                        var matches = ajax.responseText.match(/^[0-9]*\s*ERROR\s?([^:]+):/i);
+                        if(matches && matches[1]){
+                            error.code = matches[1];
+                        }
+                        reject(error);
                     }else{
                         receivePart(true);
                         resolve(ajax.responseText);
@@ -75,10 +81,18 @@ AjaxBestPromise.createMethodFunction=function(method){
                 };
                 ajax.onerror=function(err){
                     /* istanbul ignore next */ 
-                    if(!(err instanceof Error)){
-                        err=new Error('Error boxed '+err+' '+JSON.stringify(err)+' / '+ajax);
+                    if(err instanceof Error){
+                        reject(err);
+                    }else if(err instanceof ProgressEvent){
+                        var newError=new Error('404 Cannot '+method+' '+params.url+' (ProgressEvent)');
+                        newError.originalError=err;
+                        newError.status=404;
+                        reject(newError);
+                    }else{
+                        var newError=new Error('Boxed error '+JSON.stringify(err)+' Cannot get '+params.url);
+                        newError.originalError=err;
+                        reject(newError);
                     }
-                    reject(err) ;
                 };
                 var paqueteAEnviar=Object.keys(params.data).map(function(key){
                     return key+'='+encodeURIComponent(params.data[key]);
