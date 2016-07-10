@@ -6,7 +6,7 @@ module.exports = function(config) {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
-
+    browserNoActivityTimeout: 40000,
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -16,6 +16,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/es6-promise/dist/es6-promise.min.js',
+      'node_modules/require-bro/lib/polyfills-bro.js',
       'bin/*.js',
       'test/*.js'
     ],
@@ -29,7 +30,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'bin/*.js': !!process.env.SINGLE_RUN?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
+      'bin/*.js': !!process.env.SINGLE_RUN?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */,
+      'test/*.js': ['es3-safe-recast']
     },
     coverageReporter: process.env.TRAVIS||true?{type:'lcov'}:{
       type : 'html',

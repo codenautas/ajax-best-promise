@@ -124,14 +124,14 @@ app.get('/',serveHtmlText('<h1>Ajax-best-promise example </h1>'));
 if(karma){
     app.use(function(req,res,next){
         res.append('Access-Control-Allow-Origin', '*');
-        res.append('Access-Control-Allow-Headers', 'X-Requested-With');
+        res.append('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
         next();
     });
 }
 
 app.get('/ejemplo/suma',function(req,res){
     var params=req.query;
-    // probar con localhost:12448/ejemplo/suma?alfa=3&beta=7
+    // probar con localhost:12448/ejemplo/suma?p1=3&p2=7
     res.send((Number(req.query.p1)+Number(req.query.p2)).toString());
 });
 

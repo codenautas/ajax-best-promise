@@ -1,9 +1,10 @@
 {
   "name": "ajax-best-promise",
   "description": "Ajax with best promise - Ajax with stream data",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
+  "files": ["bin"],
   "repository": "codenautas/ajax-best-promise",
   "contributors": [
     {
@@ -26,9 +27,10 @@
     "express-session": "~1.14.0",
     "fs-promise": "~0.5.0",
     "istanbul": "~0.4.4",
-    "pug": "~2.0.0-beta3",
+    "karma": "~1.1.1",
     "karma-chrome-launcher": "~1.0.1",
     "karma-coverage": "~1.1.0",
+    "karma-es3-preprocessor": "~0.1.1",
     "karma-expect": "~1.1.2",
     "karma-ie-launcher": "~1.0.0",
     "karma-firefox-launcher": "~1.0.0",
@@ -38,10 +40,12 @@
     "lodash": "~4.13.1",
     "mocha": "~2.5.3",
     "moment": "~2.14.1",
+    "pug": "~2.0.0-beta3",
     "read-yaml-promise": "~1.0.2",
     
     "best-promise": "~0.2.4",
-    "extension-serve-static": "^0.1.6"
+    "extension-serve-static": "^0.1.6",
+    "require-bro": "~0.1.1"
   },
   "engines": {
     "node": ">= 0.12.0"
@@ -69,7 +73,7 @@
     }
   },
   "qa-control": {
-    "package-version": "0.1.4",
+    "package-version": "0.2.0",
     "coverage": 98,
     "run-in": "both",
     "stability": "extending",

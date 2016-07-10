@@ -49,34 +49,39 @@ describe("ajax-best-promise", function() {
     });
     
     it("send and receive normal message with ajax", function(done){
-        expect(XMLHttpRequest.toString()).to.match(/\[object XMLHttpRequestConstructor\]|function XMLHttpRequest\(\)[\s|\n]*{[\s|\n]*\[native code\][\s|\n]*}/);
-        var ajax = new XMLHttpRequest();
-        ajax.open('GET', 'http://localhost:12448/ejemplo/suma?p1=7&p2=8');
+        expect(XMLHttpRequest.toString()).to.match(/\[object XMLHttpRequest(Constructor)?\]|function XMLHttpRequest\(\)[\s|\n]*{[\s|\n]*\[native code\][\s|\n]*}/);
+        var ajax;
+        if (window.ActiveXObject) {
+            try {
+                ajax = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch(e) {
+                ajax = new ActiveXObject("Microsoft.XMLHTTP");
+            }                
+        }else{
+            ajax = new XMLHttpRequest();
+        }
+        ajax.open('GET', 'http://'+location.hostname+':12448/ejemplo/suma?p1=7&p2=8');
         ajax.setRequestHeader('X-Requested-With','XMLHttpRequest');
-        ajax.onload=function(e){
-            if(ajax.status!=200){
-                done(new Error("bad status "+ajax.status));
-            }else{
-                try{
-                    expect(ajax.responseText).to.eql(15);
-                    done();
-                }catch(err){
-                    done(err);
-                };
+        ajax.onreadystatechange=function(e){
+            if(ajax.readyState == 4){
+                if(ajax.status!=200){
+                    done(new Error("bad status "+ajax.status));
+                }else{
+                    try{
+                        expect(ajax.responseText).to.eql(15);
+                        done();
+                    }catch(err){
+                        done(err);
+                    };
+                }
             }
-        };
-        ajax.onerror=function(err){
-            if(!(err instanceof Error)){
-                err = new Error('BOXED ERR:'+err+' '+JSON.stringify(err));
-            }
-            done(err);
         }
         ajax.send();
     });
     
     it("send and receive normal message", function(done){
         AjaxBestPromise.get({
-            url:'http://localhost:12448/ejemplo/suma',
+            url:'http://'+location.hostname+':12448/ejemplo/suma',
             data:{p1:7, p2:8}
         }).then(function(result){
             expect(result).to.be('15');
@@ -86,7 +91,7 @@ describe("ajax-best-promise", function() {
 
     it("post utf8 message", function(done){
         AjaxBestPromise.post({
-            url:'http://localhost:12448/ejemplo/post/upper',
+            url:'http://'+location.hostname+':12448/ejemplo/post/upper',
             data:{text:'¡águila, pingüino, tatú!'}
         }).then(function(result){
             expect(result).to.be('¡ÁGUILA, PINGÜINO, TATÚ!');
@@ -96,7 +101,7 @@ describe("ajax-best-promise", function() {
 
     it("receive status 400", function(done){
         AjaxBestPromise.get({
-            url:'http://localhost:12448/ejemplo/error',
+            url:'http://'+location.hostname+':12448/ejemplo/error',
             data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
         }).then(function(result){
             done(new Error('does not expect a resolved result'));
@@ -109,7 +114,7 @@ describe("ajax-best-promise", function() {
 
     it("receive status and code", function(done){
         AjaxBestPromise.get({
-            url:'http://localhost:12448/ejemplo/error-code',
+            url:'http://'+location.hostname+':12448/ejemplo/error-code',
             data:{}
         }).then(function(result){
             done(new Error('does not expect a resolved result'));
@@ -121,7 +126,8 @@ describe("ajax-best-promise", function() {
         }).catch(done);
     });
 
-    it("receive status 404 not found", function(done){
+    /*
+    it("receive status 404 not found of real world", function(done){
         AjaxBestPromise.get({
             url:'http://inexistent.com.ux/',
             data:{a: 101}
@@ -135,11 +141,11 @@ describe("ajax-best-promise", function() {
             done();
         }).catch(done);
     });
-   
+    */
 
     it("receive status 404 not found", function(done){
         AjaxBestPromise.get({
-            url:'http://localhost:12448/ejemplo/inexistente',
+            url:'http://'+location.hostname+':12448/ejemplo/inexistente',
             data:{a: 101}
         }).then(function(result){
             done(new Error('does not expect a resolved result'));
@@ -157,7 +163,7 @@ describe("ajax-best-promise", function() {
         var expected=/line 1\n-?line 2 es primo!\n-?line 3 es primo!\n/;
         var obtained=[];
         AjaxBestPromise.get({
-            url:'http://localhost:12448/ejemplo/flujo',
+            url:'http://'+location.hostname+':12448/ejemplo/flujo',
             data:{limite:3, delay:400}
         }).onChunk(function(chunk){
             obtained.push(chunk);
@@ -170,7 +176,7 @@ describe("ajax-best-promise", function() {
     it("error in a chunked post", function(done){
         this.timeout(4000);
         AjaxBestPromise.post({
-            url:'http://localhost:12448/ejemplo/error',
+            url:'http://'+location.hostname+':12448/ejemplo/error',
             data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
         }).onChunk(function(chunk){
             done(new Error('does not expect a chunk result: '+chunk));
@@ -185,7 +191,7 @@ describe("ajax-best-promise", function() {
 
     it("catchs error directly in a chunked post", function(done){
         AjaxBestPromise.post({
-            url:'http://localhost:12448/ejemplo/error',
+            url:'http://'+location.hostname+':12448/ejemplo/error',
             data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
         }).catch(function(err){
             expect(err.message).to.match(/404 Cannot POST \/ejemplo\/error/);
@@ -202,7 +208,7 @@ describe("ajax-best-promise", function() {
         }));
         var obtained=[];
         AjaxBestPromise.get({
-            url:'http://localhost:12448/ejemplo/json-stream',
+            url:'http://'+location.hostname+':12448/ejemplo/json-stream',
             data:{
                 data:JSON.stringify(emmited),
                 delay:150
@@ -220,7 +226,7 @@ describe("ajax-best-promise", function() {
         var expected=["one",2,3,['∞'],{alpha:'α', beta:'β', gamma:'γ'}, "¡águila!"];
         var obtained=[];
         AjaxBestPromise.get({
-            url:'http://localhost:12448/ejemplo/json-stream',
+            url:'http://'+location.hostname+':12448/ejemplo/json-stream',
             data:{
                 data:JSON.stringify(expected.slice(3)),
                 delay:150

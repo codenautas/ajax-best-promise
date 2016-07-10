@@ -1,6 +1,5 @@
 "use strict";
 /*jshint eqnull:true */
-/*jshint globalstrict:true */
 /*jshint node:true */
 
 (function codenautasModuleDefinition(root, name, factory) {
@@ -33,7 +32,16 @@ AjaxBestPromise.createMethodFunction=function(method){
         var promiseForReturn = function(chunkConsumer){
             return new Promise(function(resolve,reject){
                 /*jshint -W117 */
-                var ajax = new XMLHttpRequest();
+                var ajax;
+                if (window.ActiveXObject) {
+                    try {
+                        ajax = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch(e) {
+                        ajax = new ActiveXObject("Microsoft.XMLHTTP");
+                    }                
+                }else{
+                    ajax = new XMLHttpRequest();
+                }
                 /*jshint +W117 */
                 var receivePart;
                 if(chunkConsumer){
@@ -48,24 +56,28 @@ AjaxBestPromise.createMethodFunction=function(method){
                             chunkConsumer('',isLastPart);
                         }
                     };
-                    // var interval = setInterval(receivePart,1000);
-                    ajax.multipart=true;
-                    ajax.onprogress=function(/*pe*/){
+                    // var interval = setInterval(receivePart,1000); 
+                    if('multipart' in ajax){
+                        ajax.multipart=true;
+                    }
+                    var proFun=function(){
                         /* istanbul ignore next */ 
-                        if (ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4){
+                        if(ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4){
                             return;
                         }
                         /* istanbul ignore next */ 
-                        if (ajax.status != 200){
+                        if(!('status' in ajax) || ajax.status != 200){
                             return;
                         }
                         receivePart();
                     };
+                    if('onload' in ajax){
+                        ajax.onprogress=proFun;
+                    }
                 }else{
                     receivePart=function(){};
                 }
-                ajax.onload=function(/*e*/){
-                    // clearInterval(interval);
+                var okFun=function(){
                     if(ajax.status!=200){
                         var error = Error(ajax.status+' '+ajax.responseText);
                         error.status = ajax.status;
@@ -79,21 +91,31 @@ AjaxBestPromise.createMethodFunction=function(method){
                         resolve(ajax.responseText);
                     }
                 };
-                ajax.onerror=function(err){
-                    /* istanbul ignore next */ 
+                var errFun=function(err){
+                    /* global ProgressEvent */
                     if(err instanceof Error){
                         reject(err);
-                    }else if(err instanceof ProgressEvent){
+                    }else if(err instanceof ProgressEvent /* || err instanceof XMLHttpRequestProgressEvent*/){
                         var newError=new Error('404 Cannot '+method+' '+params.url+' (ProgressEvent)');
                         newError.originalError=err;
                         newError.status=404;
                         reject(newError);
                     }else{
-                        var newError=new Error('Boxed error '+JSON.stringify(err)+' Cannot get '+params.url);
-                        newError.originalError=err;
-                        reject(newError);
+                        var newBoxError=new Error('Boxed error '+JSON.stringify(err)+' Cannot get '+params.url);
+                        newBoxError.originalError=err;
+                        reject(newBoxError);
                     }
                 };
+                if('onload' in ajax){
+                    ajax.onload=okFun;
+                    ajax.onerror=errFun;
+                }else{
+                    ajax.onreadystatechange=function(e){
+                        if(ajax.readyState == 4){
+                            return okFun(e);
+                        }
+                    };
+                }
                 var paqueteAEnviar=Object.keys(params.data).map(function(key){
                     return key+'='+encodeURIComponent(params.data[key]);
                 }).join('&');
@@ -132,7 +154,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                 return promiseForReturn().then(resolve,reject);
             },
             'catch':function(reject){
-                return promiseForReturn().catch(reject);
+                return promiseForReturn()["catch"](reject);
             }
         };
         return intermediateObject;
@@ -169,7 +191,11 @@ AjaxBestPromise.fromElements=function fromElements(listOfElementsOrIds,addParam,
         if('value' in element){
             value=element.value;
         }else{
-            value=element.textContent;
+            if('textContent' in element){
+                value=element.textContent;
+            }else{
+                value=element.innerText;
+            }
         }
         actual=addParam(actual,element.id,value);
     });

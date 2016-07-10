@@ -124,6 +124,21 @@ AjaxBestPromise.get({
 ```
 
 <!--lang:es-->
+## Pruebas en dispositivos reales
+
+<!--lang:en--]
+## Tests with real devices
+
+[!--lang:*-->
+
+NPM version |Device                 |OS             |nav                      |obs
+------------|-----------------------|---------------|-------------------------|----
+0.1.3       | Samsung Galaxy Note 4 | Android 6.0.1 | Chrome Mobile 44.0.2403 |
+0.1.3       | iPad mini Retina      | iOS 8.4.0     | Mobile Safari 8.0.0     |
+0.1.3       | VMWare                | WinXP         | IE 8.0.0                | polyfill:many - fail:line stream & json stream
+ 
+
+<!--lang:es-->
 ## Licencia
 
 <!--lang:en--]
