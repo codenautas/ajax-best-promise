@@ -208,13 +208,13 @@ describe("ajax-best-promise", function() {
         }));
         var obtained=[];
         AjaxBestPromise.get({
-            url:'http://'+location.hostname+':12448/ejemplo/json-stream',
+            url:'http://'+location.hostname+':12448/ejemplo/line-stream',
             data:{
                 data:JSON.stringify(emmited),
                 delay:150
             }
-        }).onLine(function(line){
-            obtained.push(line);
+        }).onLine(function(line, ender){
+            obtained.push(line+(ender||''));
         }).then(function(result){
             expect(obtained).to.eql(expected);
             done();

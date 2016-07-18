@@ -133,7 +133,9 @@ AjaxBestPromise.createMethodFunction=function(method){
         var intermediateObject={
             onJson: function(jsonConsumer){
                 return intermediateObject.onLine(function(line){
-                    jsonConsumer(JSON.parse(line));
+                    if(line){
+                        jsonConsumer(JSON.parse(line));
+                    }
                 });
             },
             onLine: function(lineConsumer){
@@ -142,7 +144,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                     remain+=chunk;
                     var slices=remain.split(/(\r\n|\r(?!\n)|\n)/);
                     while(slices.length>(isLastPart?0:1)){
-                        lineConsumer(slices.shift()+(slices.length?slices.shift():''),!slices.length);
+                        lineConsumer(slices.shift(),slices.shift(),!slices.length);
                     }
                     remain=slices.shift();
                 });
