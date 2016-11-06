@@ -1,3 +1,4 @@
+"use strict";
 // Karma configuration
 // Generated on Wed Jul 22 2015 16:41:45 GMT-0300 (Hora estándar de Argentina)
 
@@ -30,10 +31,10 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'bin/*.js': !!process.env.SINGLE_RUN?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */,
+      'bin/*.js': process.env.SINGLE_RUN?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */,
       'test/*.js': ['es3-safe-recast']
     },
-    coverageReporter: process.env.TRAVIS||true?{type:'lcov'}:{
+    coverageReporter: process.env.TRAVIS?{type:'lcov'}:{
       type : 'html',
       dir : 'coverage/'
     },

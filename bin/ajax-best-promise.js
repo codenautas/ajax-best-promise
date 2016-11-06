@@ -1,6 +1,4 @@
 "use strict";
-/*jshint eqnull:true */
-/*jshint node:true */
 
 (function codenautasModuleDefinition(root, name, factory) {
     /* global define */
@@ -26,23 +24,28 @@
 var AjaxBestPromise = {};
 /*jshint +W004 */
 
+function newXMLHttpRequest_OrSomethingLikeThis(){
+    /*jshint -W117 */
+    var ajax;
+    if (window.ActiveXObject) {
+        try {
+            ajax = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch(e) {
+            ajax = new ActiveXObject("Microsoft.XMLHTTP");
+        }                
+    }else{
+        ajax = new XMLHttpRequest();
+    }
+    return ajax;
+    /*jshint +W117 */
+}
+
 /* global Promise */
 AjaxBestPromise.createMethodFunction=function(method){
     return function(params){
         var promiseForReturn = function(chunkConsumer){
             return new Promise(function(resolve,reject){
-                /*jshint -W117 */
-                var ajax;
-                if (window.ActiveXObject) {
-                    try {
-                        ajax = new ActiveXObject("Msxml2.XMLHTTP");
-                    } catch(e) {
-                        ajax = new ActiveXObject("Microsoft.XMLHTTP");
-                    }                
-                }else{
-                    ajax = new XMLHttpRequest();
-                }
-                /*jshint +W117 */
+                var ajax = newXMLHttpRequest_OrSomethingLikeThis();
                 var receivePart;
                 if(chunkConsumer){
                     var initialPos=0;
