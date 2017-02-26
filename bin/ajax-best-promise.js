@@ -27,14 +27,15 @@ var AjaxBestPromise = {};
 function newXMLHttpRequest_OrSomethingLikeThis(){
     /*jshint -W117 */
     var ajax;
-    if (window.ActiveXObject) {
+    /* istanbul ignore else*/ // only old browsers
+    if(window.XMLHttpRequest){
+        ajax = new XMLHttpRequest();
+    }else{
         try {
             ajax = new ActiveXObject("Msxml2.XMLHTTP");
         } catch(e) {
             ajax = new ActiveXObject("Microsoft.XMLHTTP");
         }                
-    }else{
-        ajax = new XMLHttpRequest();
     }
     return ajax;
     /*jshint +W117 */
@@ -51,6 +52,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                     var initialPos=0;
                     var endPos=0;
                     receivePart=function(isLastPart){
+                        /* istanbul ignore else*/ // wired cases. I not know how to emulate that
                         if(endPos<ajax.responseText.length){
                             initialPos=endPos;
                             endPos=ajax.responseText.length;
@@ -60,9 +62,9 @@ AjaxBestPromise.createMethodFunction=function(method){
                         }
                     };
                     // var interval = setInterval(receivePart,1000); 
-                    if('multipart' in ajax){
-                        ajax.multipart=true;
-                    }
+                    // if('multipart' in ajax){
+                    //     ajax.multipart=true;
+                    // }
                     var proFun=function(){
                         /* istanbul ignore next */ 
                         if(ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4){
@@ -74,6 +76,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                         }
                         receivePart();
                     };
+                    /* istanbul ignore else*/ // only old browsers
                     if('onload' in ajax){
                         ajax.onprogress=proFun;
                     }
@@ -109,6 +112,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                         reject(newBoxError);
                     }
                 };
+                /* istanbul ignore else*/ // only old browsers
                 if('onload' in ajax){
                     ajax.onload=okFun;
                     ajax.onerror=errFun;
@@ -120,16 +124,14 @@ AjaxBestPromise.createMethodFunction=function(method){
                     };
                 }
                 var paqueteAEnviar;
-                if(params.postForm=='FORM'){
+                if(params.multipart){
                     paqueteAEnviar=new FormData();
                     Object.keys(params.data).forEach(function(key){
                         var data=params.data[key];
-                        if(data instanceof FileList){
+                        if(data && typeof data === 'object' && data.length){
                             Array.prototype.forEach.call(data,function(file){
                                 paqueteAEnviar.append(key, file, file.name);
                             });
-                        }else if(data instanceof File || data instanceof Blob){
-                            paqueteAEnviar.append(key, data, data.name);
                         }else{
                             paqueteAEnviar.append(key, data);
                         }
@@ -143,8 +145,8 @@ AjaxBestPromise.createMethodFunction=function(method){
                 ajax.open(method,url,true);
                 ajax.setRequestHeader('X-Requested-With','XMLHttpRequest');
                 if(method==='POST'){
-                    if(params.postForm!=='FORM'){
-                        ajax.setRequestHeader('Content-Type',params.postForm=='FORM'?'multipart/form-data':'application/x-www-form-urlencoded');
+                    if(!params.multipart){
+                        ajax.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
                     }
                     ajax.send(paqueteAEnviar);
                 }else{
@@ -215,6 +217,7 @@ AjaxBestPromise.fromElements=function fromElements(listOfElementsOrIds,addParam,
         if('value' in element){
             value=element.value;
         }else{
+            /* istanbul ignore else*/ // only old IE
             if('textContent' in element){
                 value=element.textContent;
             }else{

@@ -2,7 +2,7 @@
 // Karma configuration
 // Generated on Wed Jul 22 2015 16:41:45 GMT-0300 (Hora estándar de Argentina)
 
-module.exports = function(config) {
+module.exports = function(config, preConfig) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -18,6 +18,7 @@ module.exports = function(config) {
     files: [
       'node_modules/es6-promise/dist/es6-promise.min.js',
       'node_modules/require-bro/lib/polyfills-bro.js',
+      'node_modules/express-useragent/lib/express-useragent.js',
       'bin/*.js',
       'test/*.js'
     ],
@@ -31,7 +32,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'bin/*.js': process.env.SINGLE_RUN?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */,
+      'bin/*.js': preConfig.singleRun?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */,
       'test/*.js': ['es3-safe-recast']
     },
     coverageReporter: process.env.TRAVIS?{type:'lcov'}:{

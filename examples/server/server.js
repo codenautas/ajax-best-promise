@@ -10,6 +10,7 @@ var path = require('path');
 var readYaml = require('read-yaml-promise');
 var extensionServeStatic = require('extension-serve-static');
 var jade = require('pug');
+var multiparty = require('multiparty');
 
 var karma;
 var karmaIndex=process.argv.indexOf('--karma');
@@ -26,7 +27,7 @@ if(karmaIndex>0){
         if(posBrowsers>0){
             options.browsers=(process.argv[posBrowsers+1]||'').split(',');
         }
-    }});
+    }},{singleRun:process.argv.indexOf('--single-run')>0 || process.env.SINGLE_RUN});
     console.log('karma starting');
     var karmaServer = new karma.Server(options, function(exitCode) {
         console.log('Karma has exited with ' + exitCode);
@@ -38,6 +39,19 @@ if(karmaIndex>0){
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(function(req,res,next){
+    if((req.headers['content-type']||'').match(/^multipart\/form-data/)){
+        var form = new multiparty.Form();
+        form.parse(req, function(err, fields, files) {
+            req.multipartErr=err;
+            req.fields=fields;
+            req.files=files;
+            next(err);
+        });
+    }else{
+        next();
+    }
+});
 
 function serveJade(pathToFile,anyFile){
     return function(req,res,next){
@@ -201,3 +215,14 @@ function streamEmiter(fakeOneBreakLine){
 
 app.get('/ejemplo/line-stream',streamEmiter(false));
 app.get('/ejemplo/json-stream',streamEmiter(true));
+
+app.post('/ejemplo/post/files', function(req, res, next){
+    Promise.all(req.files.theFiles.map(function(file){ 
+        return fs.readFile(file.path).then(function(data){
+            return file.originalFilename+' of size '+file.size+' content: '+data.toString().substr(0,10)+'... '; 
+        });
+    })).then(function(parts){
+        res.send(parts.join(', ')+' received. '+(req.fields.description||''));
+        res.end();
+    });
+});

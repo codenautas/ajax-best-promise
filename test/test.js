@@ -1,5 +1,24 @@
 ﻿"use strict";
 
+var agentInfo=new UserAgent().parse(window.navigator.userAgent);
+
+function newFile(parts, name, type){
+    try{
+        return new File(parts, name, type);
+    }catch(err){
+        if(err.message.match(/is not a constructor|Object doesn't support this action/)){
+            var rta = new Blob(parts, type||{});
+            try{
+                rta.name=name;
+                rta.lastModifiedDate = new Date();
+            }catch(err2){
+            }
+            return rta;
+        }
+        throw err;
+    }
+}
+
 describe("ajax-best-promise", function() {
     var fromElements = AjaxBestPromise.fromElements;
     describe('fromElements',function(){
@@ -98,6 +117,45 @@ describe("ajax-best-promise", function() {
             done();
         }).catch(done);
     });
+
+    if(agentInfo.browser=='Safari' && agentInfo.version.match(/^5/)){
+        it("post file");
+        it("post 3 files");
+    }else{
+        it("post file", function(done){
+            AjaxBestPromise.post({
+                url:'http://'+location.hostname+':12448/ejemplo/post/files',
+                multipart:true,
+                data:{
+                    theFiles:[newFile(['this is a txt file'],'filename1.txt')],
+                    description:'Other data field in utf-8: ¡Sí!'
+                }
+            }).then(function(result){
+                expect(result).to.be('filename1.txt of size 18 content: this is a ...  received. Other data field in utf-8: ¡Sí!');
+                done();
+            }).catch(done);
+        });
+
+        it("post 3 files", function(done){
+            AjaxBestPromise.post({
+                url:'http://'+location.hostname+':12448/ejemplo/post/files',
+                multipart:true,
+                data:{theFiles:[
+                    newFile(['this is a txt file'],'filename1.txt'),
+                    newFile(['this is another file'],'filename2.txt'),
+                    newFile(['¡Éste es otro!'],'filename3.txt'),
+                ]}
+            }).then(function(result){
+                expect(result).to.be(
+                    'filename1.txt of size 18 content: this is a ... , '+
+                    'filename2.txt of size 20 content: this is an... , '+
+                    'filename3.txt of size 16 content: ¡Éste es o... '+
+                    ' received. '
+                );
+                done();
+            }).catch(done);
+        });
+    }
 
     it("receive status 400", function(done){
         AjaxBestPromise.get({
