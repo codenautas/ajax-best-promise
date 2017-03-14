@@ -49,7 +49,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                 var ajax = newXMLHttpRequest_OrSomethingLikeThis();
                 var receivePart;
                 progressHooks.forEach(function(f){
-                    ajax.addEventListener('progress',f);
+                    ajax.upload.addEventListener('progress',f);
                 });
                 if(chunkConsumer){
                     var initialPos=0;
