@@ -211,7 +211,7 @@ describe("ajax-best-promise", function() {
             done(new Error('does not expect a resolved result'));
         }).catch(function(err){
             // if(!window.chrome && !navigator.mozApps){
-                expect(err.message).to.match(/404 Cannot GET .*\/ejemplo\/inexistente/);
+                expect(err.message).to.match(/404(.|\n)*Cannot GET.*\/ejemplo\/inexistente/m);
                 expect(err.status).to.be(404);
             //}
             done();
@@ -243,7 +243,7 @@ describe("ajax-best-promise", function() {
         }).then(function(result){
             done(new Error('does not expect a resolved result'));
         }).catch(function(err){
-            expect(err.message).to.match(/404 Cannot POST \/ejemplo\/error/);
+            expect(err.message).to.match(/404(.|\n)*Cannot POST.*\/ejemplo\/error/m);
             expect(err.status).to.be(404);
             done();
         }).catch(done);
@@ -254,7 +254,7 @@ describe("ajax-best-promise", function() {
             url:'http://'+location.hostname+':12448/ejemplo/error',
             data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
         }).catch(function(err){
-            expect(err.message).to.match(/404 Cannot POST \/ejemplo\/error/);
+            expect(err.message).to.match(/404(.|\n)*Cannot POST.*\/ejemplo\/error/);
             expect(err.status).to.be(404);
             done();
         }).catch(done);

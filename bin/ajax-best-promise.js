@@ -51,6 +51,9 @@ AjaxBestPromise.createMethodFunction=function(method){
                 progressHooks.forEach(function(f){
                     ajax.upload.addEventListener('progress',f);
                 });
+                if(params.uploading){
+                    ajax.upload.addEventListener('progress',params.uploading);
+                }
                 if(chunkConsumer){
                     var initialPos=0;
                     var endPos=0;
