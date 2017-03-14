@@ -46,6 +46,9 @@ app.use(function(req,res,next){
             req.multipartErr=err;
             req.fields=fields;
             req.files=files;
+            // console.log('req.multipartErr', req.multipartErr);
+            // console.log('req.fields      ', req.fields      );
+            // console.log('req.files       ', req.files       );
             next(err);
         });
     }else{
@@ -222,7 +225,12 @@ app.post('/ejemplo/post/files', function(req, res, next){
             return file.originalFilename+' of size '+file.size+' content: '+data.toString().substr(0,10)+'... '; 
         });
     })).then(function(parts){
-        res.send(parts.join(', ')+' received. '+(req.fields.description||''));
+        console.log('xxxxxxxxxxxx req.fields',req.fields);
+        res.send(
+            parts.join(', ')+' received. '+
+            // (typeof req.fields.description === "string"?'':'not string: '+typeof req.fields.description+' -> ')+
+            (req.fields.description||'')
+        );
         res.end();
     });
 });

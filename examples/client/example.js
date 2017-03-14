@@ -43,5 +43,25 @@ window.addEventListener('load', function(){
         }).catch(function(err){
             paso_a_paso_err.textContent=''+err;
         });
-    }
+    };
+    eid('upload').onclick=function(){
+        AjaxBestPromise.post({
+            url:'/ejemplo/post/files',
+            multipart:true,
+            data:{
+                theFiles:eid('idFiles').files,
+                description:eid('idDescription').textContent
+            },
+        }).uploading(function(progress){
+            eid('loading').textContent+=progress.lengthComputable+','+progress.loaded+','+progress.total+'... ';
+        }).onChunk(function(resultPartial){
+            eid('pasos_recibidos').textContent+=resultPartial;
+        }).then(function(result){
+            eid('pasos_recibidos').textContent=result;
+            eid('pasos_recibidos').className='res_ok';
+        }).catch(function(err){
+            paso_a_paso_err.textContent=''+err;
+        });
+    };
 });
+

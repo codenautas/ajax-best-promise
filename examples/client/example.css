@@ -9,3 +9,15 @@
 .res_partial{
     background-color:#dd2;
 }
+
+.progress-bar{
+    width:400px;
+    height:8px;
+    border-radius:4px;
+    background-color:#9AB;
+}
+
+.progress-bar .indicator{
+    background-color:#FEB;
+    width:0%;
+}

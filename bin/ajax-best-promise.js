@@ -44,10 +44,13 @@ function newXMLHttpRequest_OrSomethingLikeThis(){
 /* global Promise */
 AjaxBestPromise.createMethodFunction=function(method){
     return function(params){
-        var promiseForReturn = function(chunkConsumer){
+        var promiseForReturn = function(chunkConsumer, progressHooks){
             return new Promise(function(resolve,reject){
                 var ajax = newXMLHttpRequest_OrSomethingLikeThis();
                 var receivePart;
+                progressHooks.forEach(function(f){
+                    ajax.addEventListener('progress',f);
+                });
                 if(chunkConsumer){
                     var initialPos=0;
                     var endPos=0;
@@ -155,6 +158,11 @@ AjaxBestPromise.createMethodFunction=function(method){
             });
         };
         var intermediateObject={
+            progressHooks:[],
+            uploading: function(progressHook){
+                this.progressHooks.push(progressHook)
+                return intermediateObject;
+            },
             onJson: function(jsonConsumer){
                 return intermediateObject.onLine(function(line){
                     if(line){
@@ -171,16 +179,16 @@ AjaxBestPromise.createMethodFunction=function(method){
                         lineConsumer(slices.shift(),slices.shift(),!slices.length);
                     }
                     remain=slices.shift();
-                });
+                },this.progressHooks);
             },
             onChunk:function(chunkConsumer){
-                return promiseForReturn(chunkConsumer);
+                return promiseForReturn(chunkConsumer,this.progressHooks);
             },
             then:function(resolve,reject){
-                return promiseForReturn().then(resolve,reject);
+                return promiseForReturn(null,this.progressHooks).then(resolve,reject);
             },
             'catch':function(reject){
-                return promiseForReturn()["catch"](reject);
+                return promiseForReturn(null,this.progressHooks)["catch"](reject);
             }
         };
         return intermediateObject;

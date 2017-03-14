@@ -140,11 +140,13 @@ describe("ajax-best-promise", function() {
             AjaxBestPromise.post({
                 url:'http://'+location.hostname+':12448/ejemplo/post/files',
                 multipart:true,
-                data:{theFiles:[
-                    newFile(['this is a txt file'],'filename1.txt'),
-                    newFile(['this is another file'],'filename2.txt'),
-                    newFile(['¡Éste es otro!'],'filename3.txt'),
-                ]}
+                data:{
+                    theFiles:[
+                        newFile(['this is a txt file'],'filename1.txt'),
+                        newFile(['this is another file'],'filename2.txt'),
+                        newFile(['¡Éste es otro!'],'filename3.txt'),
+                    ],
+                }
             }).then(function(result){
                 expect(result).to.be(
                     'filename1.txt of size 18 content: this is a ... , '+

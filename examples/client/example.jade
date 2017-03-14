@@ -35,14 +35,20 @@ html(lang="es")
           span un error que no espero aparecería acá:
           span#paso_a_paso_err.err_no_esp
           span recibo:
+          pre#loading
           pre#pasos_recibidos
     h2 form
       form(method='post', action='/ejemplo/post/files', enctype="multipart/form-data")
-        input(type='file', name='theFiles', value='select the file', multiple="multiple")
+        input#idFiles(type='file', name='theFiles', value='select the file', multiple="multiple")
         br
-        input(name='description', value='the description')
+        input#idDescription(name='description', value='the description')
         br
         input(type='submit', value='ok submit')
+        br
+        input#upload(type='button', value='ajax upload')
+        br
+        div.progress-bar
+          div.indicator
     script(src='ajax-best-promise.js')
     script(src='example.js')
       
