@@ -1,7 +1,7 @@
 {
   "name": "ajax-best-promise",
   "description": "Ajax with best promise - Ajax with stream data",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "files": ["bin"],
@@ -45,6 +45,7 @@
     "read-yaml-promise": "~1.0.2",
     
     "extension-serve-static": "^0.1.6",
+    "mini-tools": "~0.3.13",
     "require-bro": "~0.1.4"
   },
   "engines": {

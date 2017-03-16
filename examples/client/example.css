@@ -19,5 +19,6 @@
 
 .progress-bar .indicator{
     background-color:#FEB;
-    width:0%;
+    width: 0%;
+    height:8px;
 }

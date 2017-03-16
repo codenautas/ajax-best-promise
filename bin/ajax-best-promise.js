@@ -97,6 +97,21 @@ AjaxBestPromise.createMethodFunction=function(method){
                         if(matches && matches[1]){
                             error.code = matches[1];
                         }
+                        var extraLines=ajax.responseText.split(/\r?\n/);
+                        for(var i=1; i<extraLines.length; i++){
+                            var line=extraLines[i];
+                            if(line.trim()==='' || /^--------+\s*$/.test(line)){
+                                break;
+                            }
+                            var matches = line.match(/^(\w+):\s(.*)$/);
+                            if(matches){
+                                try{
+                                    var value=JSON.parse(matches[2]);
+                                    error[matches[1]]=value;
+                                }catch(errJson){
+                                }
+                            }
+                        }
                         reject(error);
                     }else{
                         receivePart(true);

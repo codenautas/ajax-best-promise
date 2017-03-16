@@ -186,6 +186,21 @@ describe("ajax-best-promise", function() {
         }).catch(done);
     });
 
+    it("receive details", function(done){
+        AjaxBestPromise.get({
+            url:'http://'+location.hostname+':12448/ejemplo/error-code-with-attr',
+            data:{}
+        }).then(function(result){
+            done(new Error('does not expect a resolved result'));
+        }).catch(function(err){
+            expect(err.message).to.eql('400 ERROR A901c: this is the message\ncode: "A901c"\ndetails: "the \\"dets\\""');
+            expect(err.status).to.be(400);
+            expect(err.code).to.be('A901c');
+            expect(err.details).to.be('the "dets"');
+            done();
+        }).catch(done);
+    });
+
     /*
     it("receive status 404 not found of real world", function(done){
         AjaxBestPromise.get({

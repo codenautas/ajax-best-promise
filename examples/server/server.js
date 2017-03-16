@@ -12,6 +12,8 @@ var extensionServeStatic = require('extension-serve-static');
 var jade = require('pug');
 var multiparty = require('multiparty');
 
+var MiniTools = require('mini-tools');
+
 var karma;
 var karmaIndex=process.argv.indexOf('--karma');
 if(karmaIndex>0){
@@ -72,7 +74,7 @@ function serveJade(pathToFile,anyFile){
         }).then(function(fileContent){
             var htmlText=jade.render(fileContent);
             serveHtmlText(htmlText)(req,res);
-        }).catch(serveErr(req,res,next));
+        }).catch(MiniTools.serveErr(req,res,next));
     }
 }
 
@@ -164,6 +166,17 @@ app.get('/ejemplo/error',function(req,res){
 app.get('/ejemplo/error-code',function(req,res){
     res.status(403);
     res.end('ErrOr A901b: this is a message');
+});
+
+app.get('/ejemplo/error-code-with-attr',function(req,res){
+    MiniTools.serveErr.propertiesWhiteList=['code','details'];
+    Promise.resolve().then(function(){
+        var err=new Error("this is the message");
+        err.code="A901c";
+        err.details='the "dets"';
+        throw err;
+        res.end("ok!");
+    }).catch(MiniTools.serveErr(req,res));
 });
 
 app.get('/ejemplo/flujo',function(req,res){
