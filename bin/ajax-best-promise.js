@@ -93,7 +93,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                     if(ajax.status!=200){
                         var error = Error(ajax.status+' '+ajax.responseText);
                         error.status = ajax.status;
-                        var matches = ajax.responseText.match(/^[0-9]*\s*ERROR\s?([^:]+):/i);
+                        var matches = ajax.responseText.match(/^[0-9]*\s*ERROR\s?([^\n:]+):/i);
                         if(matches && matches[1]){
                             error.code = matches[1];
                         }

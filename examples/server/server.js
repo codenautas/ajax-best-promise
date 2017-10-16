@@ -168,6 +168,11 @@ app.get('/ejemplo/error-code',function(req,res){
     res.end('ErrOr A901b: this is a message');
 });
 
+app.get('/ejemplo/error-wo-code',function(req,res){
+    res.status(403);
+    res.end('ERROR. Here is not a code\n\n\nErrOr A901b: this is a message');
+});
+
 app.get('/ejemplo/error-code-with-attr',function(req,res){
     MiniTools.serveErr.propertiesWhiteList=['code','details'];
     Promise.resolve().then(function(){

@@ -111,9 +111,9 @@ describe("ajax-best-promise", function() {
     it("post utf8 message", function(done){
         AjaxBestPromise.post({
             url:'http://'+location.hostname+':12448/ejemplo/post/upper',
-            data:{text:'¡águila, pingüino, tatú!'}
+            data:{text:'¡águila, pingüino, tatú!\n\n\n123 ERROR lower: UPPER'}
         }).then(function(result){
-            expect(result).to.be('¡ÁGUILA, PINGÜINO, TATÚ!');
+            expect(result).to.be('¡ÁGUILA, PINGÜINO, TATÚ!\n\n\n123 ERROR LOWER: UPPER');
             done();
         }).catch(done);
     });
@@ -182,6 +182,21 @@ describe("ajax-best-promise", function() {
             expect(err.message).to.eql('403 ErrOr A901b: this is a message');
             expect(err.status).to.be(403);
             expect(err.code).to.be('A901b');
+            done();
+        }).catch(done);
+    });
+
+    it("receive status without code", function(done){
+        AjaxBestPromise.get({
+            url:'http://'+location.hostname+':12448/ejemplo/error-wo-code',
+            data:{}
+        }).then(function(result){
+            done(new Error('does not expect a resolved result'));
+        }).catch(function(err){
+            expect(err.message).to.eql('403 ERROR. Here is not a code\n\n\nErrOr A901b: this is a message');
+            expect(err.status).to.be(403);
+            expect(err.code).to.be(undefined);
+            expect(typeof err.code).to.be('undefined');
             done();
         }).catch(done);
     });
