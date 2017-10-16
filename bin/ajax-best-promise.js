@@ -103,12 +103,13 @@ AjaxBestPromise.createMethodFunction=function(method){
                             if(line.trim()==='' || /^--------+\s*$/.test(line)){
                                 break;
                             }
-                            var matches = line.match(/^(\w+):\s(.*)$/);
-                            if(matches){
+                            var matchesAttr = line.match(/^(\w+):\s(.*)$/);
+                            if(matchesAttr){
                                 try{
-                                    var value=JSON.parse(matches[2]);
-                                    error[matches[1]]=value;
+                                    var value=JSON.parse(matchesAttr[2]);
+                                    error[matchesAttr[1]]=value;
                                 }catch(errJson){
+                                    error[matchesAttr[1]]=matchesAttr[2]+'';
                                 }
                             }
                         }
@@ -156,7 +157,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                         }else{
                             paqueteAEnviar.append(key, data);
                         }
-                    })
+                    });
                 }else{
                     paqueteAEnviar=Object.keys(params.data).map(function(key){
                         return key+'='+encodeURIComponent(params.data[key]);
@@ -178,7 +179,7 @@ AjaxBestPromise.createMethodFunction=function(method){
         var intermediateObject={
             progressHooks:[],
             uploading: function(progressHook){
-                this.progressHooks.push(progressHook)
+                this.progressHooks.push(progressHook);
                 return intermediateObject;
             },
             onJson: function(jsonConsumer){
