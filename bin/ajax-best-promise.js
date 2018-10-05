@@ -59,12 +59,16 @@ AjaxBestPromise.createMethodFunction=function(method){
                     var endPos=0;
                     receivePart=function(isLastPart){
                         /* istanbul ignore else*/ // wired cases. I not know how to emulate that
-                        if(endPos<ajax.responseText.length){
-                            initialPos=endPos;
-                            endPos=ajax.responseText.length;
-                            chunkConsumer(ajax.responseText.substr(initialPos,endPos),isLastPart);
-                        }else if(isLastPart){
-                            chunkConsumer('',isLastPart);
+                        try{
+                            if(endPos<ajax.responseText.length){
+                                initialPos=endPos;
+                                endPos=ajax.responseText.length;
+                                chunkConsumer(ajax.responseText.substr(initialPos,endPos),isLastPart);
+                            }else if(isLastPart){
+                                chunkConsumer('',isLastPart);
+                            }
+                        }catch(err){
+                            reject(err);
                         }
                     };
                     // var interval = setInterval(receivePart,1000); 

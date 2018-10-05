@@ -174,7 +174,7 @@ app.get('/ejemplo/error-wo-code',function(req,res){
 });
 
 app.get('/ejemplo/error-code-with-attr',function(req,res){
-    MiniTools.serveErr.propertiesWhiteList=['code','details'];
+    MiniTools.globalOpts.serveErr.propertiesWhiteList=['code','details'];
     Promise.resolve().then(function(){
         var err=new Error("this is the message");
         err.code="A901c";
