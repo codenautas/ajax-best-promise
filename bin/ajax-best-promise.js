@@ -106,7 +106,8 @@ AjaxBestPromise.createMethodFunction=function(method){
                             var matchesAttr = line.match(/^(\w+):\s(.*)$/);
                             if(matchesAttr){
                                 try{
-                                    var value=JSON.parse(matchesAttr[2]);
+                                    var jsonValue=matchesAttr[2];
+                                    var value=jsonValue==="undefined"?undefined:JSON.parse(jsonValue);
                                     error[matchesAttr[1]]=value;
                                 }catch(errJson){
                                     error[matchesAttr[1]]=matchesAttr[2]+'';

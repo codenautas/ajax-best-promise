@@ -312,7 +312,7 @@ describe("ajax-best-promise", function() {
     });
     
     it("receive json stream", function(done){
-        this.timeout(4000);
+        this.timeout(8000);
         var expected=["one",2,3,['∞'],{alpha:'α', beta:'β', gamma:'γ'}, "¡águila!"];
         var obtained=[];
         AjaxBestPromise.get({

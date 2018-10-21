@@ -8,7 +8,7 @@ var session = require('express-session');
 var fs = require('fs-promise');
 var path = require('path');
 var readYaml = require('read-yaml-promise');
-var extensionServeStatic = require('extension-serve-static');
+var serveContent = require('serve-content');
 var jade = require('pug');
 var multiparty = require('multiparty');
 
@@ -105,25 +105,21 @@ function serveErr(req,res,next){
     }
 }
 
-var mime = extensionServeStatic.mime;
-
 var validExts=[
     'html',
     'jpg','png','gif',
     'css','js','manifest'];
 
-// ajax-best-promise.js
-// 
-app.use('/',extensionServeStatic('./bin', {
+app.use('/',serveContent('./bin', {
     index: ['index.html'], 
     extensions:[''], 
-    staticExtensions:validExts
+    allowedExts:validExts
 }));
 
-app.use('/',extensionServeStatic('./examples/client', {
+app.use('/',serveContent('./examples/client', {
     index: ['index.html'], 
     extensions:[''], 
-    staticExtensions:validExts
+    allowedExts:validExts
 }));
 
 var actualConfig;
@@ -174,7 +170,7 @@ app.get('/ejemplo/error-wo-code',function(req,res){
 });
 
 app.get('/ejemplo/error-code-with-attr',function(req,res){
-    MiniTools.serveErr.propertiesWhiteList=['code','details'];
+    MiniTools.globalOpts.serveErr.propertiesWhiteList=['code','details'];
     Promise.resolve().then(function(){
         var err=new Error("this is the message");
         err.code="A901c";
@@ -243,7 +239,6 @@ app.post('/ejemplo/post/files', function(req, res, next){
             return file.originalFilename+' of size '+file.size+' content: '+data.toString().substr(0,10)+'... '; 
         });
     })).then(function(parts){
-        console.log('xxxxxxxxxxxx req.fields',req.fields);
         res.send(
             parts.join(', ')+' received. '+
             // (typeof req.fields.description === "string"?'':'not string: '+typeof req.fields.description+' -> ')+
