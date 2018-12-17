@@ -30,4 +30,4 @@ node_modules
 local-*
 *-local.*
 
-package-json.lock
+package-lock.json

@@ -1,0 +1,9 @@
+{
+    "asi": false,
+    "forin": true,
+    "curly": true,
+    "node": true,
+    "strict": "global",
+    "eqnull": true,
+    "predef": [ "AjaxBestPromise", "UserAgent", "expect", "describe", "it", "beforeEach", "afterEach", "window", "document", "location", "File", "Blob", "XMLHttpRequest", "ActiveXObject" ]
+}

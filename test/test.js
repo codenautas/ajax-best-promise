@@ -6,7 +6,7 @@ function newFile(parts, name, type){
     try{
         return new File(parts, name, type);
     }catch(err){
-        if(err.message.match(/is not a constructor|Object doesn't support this action/)){
+        if(err.message.match(/is not a constructor|Object doesn't support this action|El objeto no acepta esta acc/)){
             var rta = new Blob(parts, type||{});
             try{
                 rta.name=name;
@@ -91,10 +91,10 @@ describe("ajax-best-promise", function() {
                         done();
                     }catch(err){
                         done(err);
-                    };
+                    }
                 }
             }
-        }
+        };
         ajax.send();
     });
     
