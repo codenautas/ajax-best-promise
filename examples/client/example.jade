@@ -5,7 +5,7 @@ html(lang="es")
     link(href="example.css", rel="stylesheet", type="text/css")
   body
     h1 Ajax-best-promise example
-    div
+    div.simple
       button#start <big><b>S</b></big>tart
       ul
         li
@@ -23,20 +23,42 @@ html(lang="es")
           span , pero espero un error acá: 
           span#url_inex_catch.res_ok
         li
-          datos feos que van a ser rechazados por el servidor. Datos: 
+          span datos feos que van a ser rechazados por el servidor. Datos: 
           input#datos_feos(value="esto < 5 ó >4 a<b>c & esto ; feo '; drop table" style='width:300px')
           span si recibiera un dato lo vería acá: 
           span#datos_feos_then.err_no_esp
           span , pero espero un error acá: 
           span#datos_feos_catch.res_ok
         li
-          datos paso a paso. Cantidad de pasos:  
+          span datos paso a paso. Cantidad de pasos:  
           input#cantidad_pasos(value='4')
           span un error que no espero aparecería acá:
           span#paso_a_paso_err.err_no_esp
           span recibo:
           pre#loading
           pre#pasos_recibidos
+        li
+          span datos con heather vía post. Header mirror=
+          input#mirror(value='espejo')
+          span . dato 
+          input#dato_post(value='súper fan')
+          span . resultado recibido: 
+          span#dato_post_rec 
+          span . header recibido:
+          span#dato_post_head
+          span . error no esperado:
+          span#dato_post_err.err_no_esp
+        li 
+          span JSON con heather vía get. Header mirror=
+          input#json_mirror(value='Quebec')
+          span . header recibido:
+          span#json_post_head
+          span . resultado recibido: 
+          pre#json_post_rec 
+          span . error no esperado:
+          span#json_post_err.err_no_esp
+        li
+          button#onetest One Test
     h2 form
       form(method='post', action='/ejemplo/post/files', enctype="multipart/form-data")
         input#idFiles(type='file', name='theFiles', value='select the file', multiple="multiple")

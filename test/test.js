@@ -320,12 +320,35 @@ describe("ajax-best-promise", function() {
             data:{
                 data:JSON.stringify(expected.slice(3)),
                 delay:150
+            },
+            headers:{
+                mirror: 'espejo'
             }
+        }).onHeaders(function(headers){
+            expect(headers.mirror).to.eql('m: espejo');
         }).onJson(function(json){
             obtained.push(json);
-        }).then(function(result){
+        }).then(function(){
             expect(obtained).to.eql(expected);
             done();
         }).catch(done);
+    });
+
+    it("post with headers", function(done){
+        AjaxBestPromise.post({
+            url:'http://'+location.hostname+':12448/ejemplo/post/headers',
+            //  url:'/ejemplo/post/headers',
+            data:{text:'¡águila!'},
+            headers:{mirror:'espejo'},
+        }).onHeaders(function(header){
+            expect(header.rorrim).to.eql('ojepse');
+        }).then(function(result){
+            console.log('******************************* result', result)
+            expect(result).to.be('ok ¡águila!');
+            done();
+        }).catch(function(err){
+            console.log('**************** err',err)
+            done(err)
+        })
     });
 });

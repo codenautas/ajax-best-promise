@@ -12,6 +12,8 @@ var multiparty = require('multiparty');
 
 var MiniTools = require('mini-tools');
 
+var PORT=12448;
+
 var karma;
 var karmaIndex=process.argv.indexOf('--karma');
 if(karmaIndex>0){
@@ -124,9 +126,7 @@ var actualConfig;
 
 var clientDb;
 
-var PORT=12448;
-
-var server=app.listen(PORT, function(event) {
+var server=app.listen(PORT + (process.argv.indexOf('--cloneport') + 1), function(event) {
     console.log('Listening on port %d', server.address().port);
 });
 
@@ -205,6 +205,11 @@ app.get('/ejemplo/flujo',function(req,res){
     },params.delay||1000);
 });
 
+function allowHeaders(res){
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Expose-Headers", "Rorrim, Mirror")
+}
+
 function streamEmiter(fakeOneBreakLine){
     return function(req,res){
         var params=req.query;
@@ -213,7 +218,11 @@ function streamEmiter(fakeOneBreakLine){
         }).join('\n');
         var chunks=['"one"\n','2\r3\r\n',dataReadyForStream.substr(0,10),dataReadyForStream.substr(10),'',''];
         var step=0;
-        res.append('Content-Type', 'application/octet-stream'); // por chrome bug segun: http://stackoverflow.com/questions/3880381/xmlhttprequest-responsetext-while-loading-readystate-3-in-chrome
+        allowHeaders(res);
+        res.setHeader('Content-Type', 'application/octet-stream'); // por chrome bug segun: http://stackoverflow.com/questions/3880381/xmlhttprequest-responsetext-while-loading-readystate-3-in-chrome
+        if (req.get("Mirror") ){
+            res.setHeader("Mirror", "m: " + req.get("Mirror"))
+        }
         var iterador=setInterval(function(){
             res.write(chunks[step]);
             if(step===1 && fakeOneBreakLine){
@@ -244,4 +253,29 @@ app.post('/ejemplo/post/files', function(req, res, next){
         );
         res.end();
     });
+});
+
+app.options(/\/.*/, function(req, res, next){
+    console.log('************* options',req.body,req.headers)
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Mirror");
+    res.status(204);
+    res.end();
+});
+
+app.post('/ejemplo/post/headers', function(req, res, next){
+    console.log('ej**************',req.body,req.headers)
+    /** @type {string} */
+    var param = req.get('mirror').toString();
+    console.log('************ param',param)
+    if (!param) {
+        res.status(404)
+        res.send('no esta el header')
+        return
+    }
+    allowHeaders(res);
+    res.set('rorrim', param.split('').reverse().join(''));
+    res.end('ok '+req.body.text);
 });

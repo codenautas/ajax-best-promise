@@ -49,6 +49,15 @@ module.exports = function(config, preConfig) {
     // web server port
     port: 9876,
 
+    crossOriginAttribute: false, 
+
+    customHeaders: [
+      {match: '.*', name: 'Service-Worker-Allowed', value: '/'},
+      {match: '.*', name: 'Access-Control-Allow-Origin', value: '*'},
+      {match: '.*', name: 'Access-Control-Allow-Credentials', value: 'true'},
+      {match: '.*', name: 'Access-Control-Allow-Methods', value: 'GET,HEAD,OPTIONS,POST,PUT'},
+      {match: '.*', name: 'Access-Control-Allow-Headers', value: 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, mirror'},
+    ],
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,
@@ -65,12 +74,11 @@ module.exports = function(config, preConfig) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Firefox', 'PhantomJS'].concat((process.env.TRAVIS?[]:['Chrome','Safari','IE'])),
+    browsers: ['Firefox'].concat((process.env.TRAVIS?[]:['Chrome','IE'])),
     /* NO CAMBIAR MÁS BROWSERS DIRECTO DESDE ACÁ, INVOCAR DESDE LA LÍNEA DE PARÁMETROS ASÍ:
-    npm run infinito -- --browsers Chrome,PhantomJS
     npm run infinito -- --browsers Chrome
-    npm run infinito -- --browsers Firefox,Safari,Chrome
-    npm run infinito -- --browsers Firefox,Safari,Chrome,IE,PhantomJS
+    npm run infinito -- --browsers Firefox,Chrome
+    npm run infinito -- --browsers Firefox,Chrome,IE
     */
 
     // Continuous Integration mode

@@ -44,6 +44,7 @@ function newXMLHttpRequest_OrSomethingLikeThis(){
 /* global Promise */
 AjaxBestPromise.createMethodFunction=function(method){
     return function(params){
+        var registeredHeadersConsumer = false;
         var promiseForReturn = function(chunkConsumer, progressHooks){
             return new Promise(function(resolve,reject){
                 var ajax = newXMLHttpRequest_OrSomethingLikeThis();
@@ -53,6 +54,17 @@ AjaxBestPromise.createMethodFunction=function(method){
                 });
                 if(params.uploading){
                     ajax.upload.addEventListener('progress',params.uploading);
+                }
+                var headerFun = function(){
+                    if (ajax.readyState == 2 && registeredHeadersConsumer) {
+                        var headers = {}
+                        ajax.getAllResponseHeaders().split(/\r?\n/).forEach(function(line){
+                            var list = line.split(':');
+                            headers[list[0].toLowerCase()] = list.slice(1).join(':').trimLeft();
+                        })
+                        registeredHeadersConsumer(headers);
+                        registeredHeadersConsumer = false;
+                    }
                 }
                 if(chunkConsumer){
                     var initialPos=0;
@@ -80,6 +92,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                         if(ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4){
                             return;
                         }
+                        headerFun();
                         /* istanbul ignore next */ 
                         if(!('status' in ajax) || ajax.status != 200){
                             return;
@@ -129,6 +142,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                     if(err instanceof Error){
                         reject(err);
                     }else if(err instanceof ProgressEvent /* || err instanceof XMLHttpRequestProgressEvent*/){
+                        console.log('******************** err *********************', err)
                         var newError=new Error('404 Cannot '+method+' '+params.url+' (ProgressEvent)');
                         newError.originalError=err;
                         newError.status=404;
@@ -143,8 +157,10 @@ AjaxBestPromise.createMethodFunction=function(method){
                 if('onload' in ajax){
                     ajax.onload=okFun;
                     ajax.onerror=errFun;
+                    ajax.onreadystatechange=headerFun
                 }else{
                     ajax.onreadystatechange=function(e){
+                        headerFun();
                         if(ajax.readyState == 4){
                             return okFun(e);
                         }
@@ -164,13 +180,18 @@ AjaxBestPromise.createMethodFunction=function(method){
                         }
                     });
                 }else{
-                    paqueteAEnviar=Object.keys(params.data).map(function(key){
+                    paqueteAEnviar=Object.keys(params.data || {}).map(function(key){
                         return key+'='+encodeURIComponent(params.data[key]);
                     }).join('&');
                 }
                 var url=params.url+((paqueteAEnviar && method!=='POST')?'?'+paqueteAEnviar:'');
                 ajax.open(method,url,true);
                 ajax.setRequestHeader('X-Requested-With','XMLHttpRequest');
+                if (params.headers) {
+                    for (var key in params.headers) {
+                        ajax.setRequestHeader(key, params.headers[key]);
+                    }
+                }
                 if(method==='POST'){
                     if(!params.multipart){
                         ajax.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
@@ -208,6 +229,11 @@ AjaxBestPromise.createMethodFunction=function(method){
             onChunk:function(chunkConsumer){
                 return promiseForReturn(chunkConsumer,this.progressHooks);
             },
+            onHeaders:function(headersConsumer){
+                registeredHeadersConsumer = headersConsumer;
+                delete intermediateObject.onHeaders;
+                return intermediateObject;
+            },
             then:function(resolve,reject){
                 return promiseForReturn(null,this.progressHooks).then(resolve,reject);
             },
@@ -221,6 +247,13 @@ AjaxBestPromise.createMethodFunction=function(method){
 
 AjaxBestPromise.post=AjaxBestPromise.createMethodFunction('POST');
 AjaxBestPromise.get=AjaxBestPromise.createMethodFunction('GET');
+AjaxBestPromise.put=AjaxBestPromise.createMethodFunction('PUT');
+AjaxBestPromise.patch=AjaxBestPromise.createMethodFunction('PATCH');
+AjaxBestPromise.delete=AjaxBestPromise.createMethodFunction('DELETE');
+AjaxBestPromise.options=AjaxBestPromise.createMethodFunction('OPTIONS');
+AjaxBestPromise.head=AjaxBestPromise.createMethodFunction('HEAD');
+AjaxBestPromise.connect=AjaxBestPromise.createMethodFunction('CONNECT');
+AjaxBestPromise.trace=AjaxBestPromise.createMethodFunction('TRACE');
 
 AjaxBestPromise.fromElements=function fromElements(listOfElementsOrIds,addParam,base){
     var actual=base;

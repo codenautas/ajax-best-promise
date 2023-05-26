@@ -2,6 +2,10 @@
     background-color:#fa8
 }
 
+.res_err{
+    background-color:rgb(255, 136, 136)
+}
+
 .res_ok{
     background-color:#6d6
 }
@@ -21,4 +25,8 @@
     background-color:#FEB;
     width: 0%;
     height:8px;
+}
+
+.simple input{
+    width: 60px
 }
