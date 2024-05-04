@@ -256,7 +256,6 @@ app.post('/ejemplo/post/files', function(req, res, next){
 });
 
 app.options(/\/.*/, function(req, res, next){
-    console.log('************* options',req.body,req.headers)
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Credentials", "true");
     res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
@@ -266,10 +265,8 @@ app.options(/\/.*/, function(req, res, next){
 });
 
 app.post('/ejemplo/post/headers', function(req, res, next){
-    console.log('ej**************',req.body,req.headers)
     /** @type {string} */
     var param = req.get('mirror').toString();
-    console.log('************ param',param)
     if (!param) {
         res.status(404)
         res.send('no esta el header')

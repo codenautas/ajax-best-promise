@@ -6,9 +6,6 @@ Ajax with best promise - Ajax with stream data
 ![extending](https://img.shields.io/badge/stability-extending-orange.svg)
 [![npm-version](https://img.shields.io/npm/v/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
 [![downloads](https://img.shields.io/npm/dm/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
-[![build](https://img.shields.io/travis/codenautas/ajax-best-promise/master.svg)](https://travis-ci.org/codenautas/ajax-best-promise)
-[![coverage](https://img.shields.io/coveralls/codenautas/ajax-best-promise/master.svg)](https://coveralls.io/r/codenautas/ajax-best-promise)
-[![dependencies](https://img.shields.io/david/codenautas/ajax-best-promise.svg)](https://david-dm.org/codenautas/ajax-best-promise)
 
 
 language: ![English](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-en.png)
@@ -56,26 +53,6 @@ AjaxBestPromise.get({
 });
 ```
 
-## haders
-
-You can send headers in the header property and recieve it with the `onHeader` function.
-
-```js
-AjaxBestPromise.put({
-    url:'http://example.com:3333/service/',
-    data:{ alfa: 1, betha: 2},
-    headers:{
-        Authorization: 'Bearer ' + token
-    }
-}).onHeaders(function(headers){
-    newId = headers.Location;
-}).then(function(){
-    console.log('data inserted', newId);
-}).catch(function(err){
-    console.log('error inserting data', err);
-});
-```
-
 
 ## Error handler
 
@@ -94,27 +71,8 @@ AjaxBestPromise.get({
 });
 ```
 
-## Modern JS
-
-```ts
-try{
-    var newId: string
-    await AjaxBestPromise.put({
-        url:'http://example.com:3333/service/',
-        data:{ alfa: 1, betha: 2},
-        headers:{
-            Authorization: 'Bearer ' + token
-        }
-    }).onHeaders(function(headers){
-        newId = headers.Location;
-    });
-    console.log('data inserted', newId);
-}catch(err){
-    console.log('error inserting data', err);
-}
-```
-
 ## Tests with real devices
+
 
 NPM version |Device                 |OS             |nav                      |obs
 ------------|-----------------------|---------------|-------------------------|----

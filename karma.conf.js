@@ -33,7 +33,6 @@ module.exports = function(config, preConfig) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'bin/*.js': preConfig.singleRun?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */,
-      'test/*.js': ['es3-safe-recast']
     },
     coverageReporter: process.env.TRAVIS?{type:'lcov'}:{
       type : 'html',
@@ -74,7 +73,7 @@ module.exports = function(config, preConfig) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Firefox'].concat((process.env.TRAVIS?[]:['Chrome','IE'])),
+    browsers: ['Firefox'].concat((process.env.TRAVIS?[]:['Chrome'])),
     /* NO CAMBIAR MÁS BROWSERS DIRECTO DESDE ACÁ, INVOCAR DESDE LA LÍNEA DE PARÁMETROS ASÍ:
     npm run infinito -- --browsers Chrome
     npm run infinito -- --browsers Firefox,Chrome

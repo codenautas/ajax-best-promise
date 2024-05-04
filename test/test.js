@@ -343,11 +343,9 @@ describe("ajax-best-promise", function() {
         }).onHeaders(function(header){
             expect(header.rorrim).to.eql('ojepse');
         }).then(function(result){
-            console.log('******************************* result', result)
             expect(result).to.be('ok ¡águila!');
             done();
         }).catch(function(err){
-            console.log('**************** err',err)
             done(err)
         })
     });
