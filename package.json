@@ -49,7 +49,8 @@
   },
   "scripts": {
     "infinito": "node examples/server/server.js --karma karma.conf.js",
-    "test": "node examples/server/server.js --karma karma.conf.js --single-run",
+    "test": "echo Use test-ui to test!",
+    "test-ui": "node examples/server/server.js --karma karma.conf.js --single-run",
     "test-cov": "node examples/server/server.js --karma karma.conf.js --single-run",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
     "start": "node examples/server/server.js"
