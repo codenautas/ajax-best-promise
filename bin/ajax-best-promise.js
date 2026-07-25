@@ -55,7 +55,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                     ajax.upload.addEventListener('progress',params.uploading);
                 }
                 var headerFun = function(){
-                    if (ajax.readyState === 2 && registeredHeadersConsumer) {
+                    if (ajax.readyState == 2 && registeredHeadersConsumer) { /* eslint-disable-line eqeqeq */
                         var headers = {}
                         ajax.getAllResponseHeaders().split(/\r?\n/).forEach(function(line){
                             var list = line.split(':');
@@ -88,12 +88,12 @@ AjaxBestPromise.createMethodFunction=function(method){
                     // }
                     var proFun=function(){
                         /* istanbul ignore next */
-                        if(ajax.readyState !== 2 && ajax.readyState !== 3 && ajax.readyState !== 4){
+                        if(ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4){ /* eslint-disable-line eqeqeq */
                             return;
                         }
                         headerFun();
                         /* istanbul ignore next */
-                        if(!('status' in ajax) || ajax.status !== 200){
+                        if(!('status' in ajax) || ajax.status != 200){ /* eslint-disable-line eqeqeq */
                             return;
                         }
                         receivePart();
@@ -106,7 +106,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                     receivePart=function(){};
                 }
                 var okFun=function(){
-                    if(ajax.status !== 200){
+                    if(ajax.status != 200){ /* eslint-disable-line eqeqeq */
                         var error = Error(ajax.status+' '+ajax.responseText);
                         error.status = ajax.status;
                         var matches = ajax.responseText.match(/^[0-9]*\s*ERROR\s?([^\n:]+):/i);
@@ -160,7 +160,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                 }else{
                     ajax.onreadystatechange=function(e){
                         headerFun();
-                        if(ajax.readyState === 4){
+                        if(ajax.readyState == 4){ /* eslint-disable-line eqeqeq */
                             return okFun(e);
                         }
                     };
