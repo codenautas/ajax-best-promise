@@ -59,7 +59,7 @@
   "qa-control": {
     "run-in": "client",
     "type": "lib",
-    "coverage": 80,
+    "coverage": 90,
     "gha": "all",
     "silenced": [
       "first_lines_does_not_match_in_file_1"

@@ -160,6 +160,44 @@ describe("ajax-best-promise", function() {
         });
     }
 
+    it("informs upload progress with the uploading method", function(done){
+        var progresses=[];
+        AjaxBestPromise.post({
+            url:'http://'+location.hostname+':12448/ejemplo/post/files',
+            multipart:true,
+            data:{
+                theFiles:[newFile(['this is a txt file'],'filename1.txt')],
+            }
+        }).uploading(function(progress){
+            progresses.push(progress);
+        }).then(function(result){
+            expect(result).to.be('filename1.txt of size 18 content: this is a ...  received. ');
+            expect(progresses.length).to.be.greaterThan(0);
+            expect(progresses[0].total).to.be.greaterThan(0);
+            expect(progresses[progresses.length-1].loaded).to.be(progresses[progresses.length-1].total);
+            done();
+        }).catch(done);
+    });
+
+    it("informs upload progress with the uploading parameter", function(done){
+        var progresses=[];
+        AjaxBestPromise.post({
+            url:'http://'+location.hostname+':12448/ejemplo/post/files',
+            multipart:true,
+            data:{
+                theFiles:[newFile(['this is a txt file'],'filename1.txt')],
+            },
+            uploading:function(progress){
+                progresses.push(progress);
+            }
+        }).then(function(result){
+            expect(result).to.be('filename1.txt of size 18 content: this is a ...  received. ');
+            expect(progresses.length).to.be.greaterThan(0);
+            expect(progresses[0].total).to.be.greaterThan(0);
+            done();
+        }).catch(done);
+    });
+
     it("receive status 400", function(done){
         AjaxBestPromise.get({
             url:'http://'+location.hostname+':12448/ejemplo/error',
