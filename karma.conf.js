@@ -48,7 +48,7 @@ module.exports = function(config, preConfig) {
     // web server port
     port: 9876,
 
-    crossOriginAttribute: false, 
+    crossOriginAttribute: false,
 
     customHeaders: [
       {match: '.*', name: 'Service-Worker-Allowed', value: '/'},

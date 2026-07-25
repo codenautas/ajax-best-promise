@@ -1,4 +1,4 @@
-﻿doctype html
+doctype html
 html(lang="es")
   head
     title Ajax-best-promise example
@@ -17,20 +17,20 @@ html(lang="es")
           span#result.res_ok
           .err_no_esp#error_suma
         li
-          span url inexistente. 
-          span si recibiera un dato lo vería acá: 
+          span url inexistente.
+          span si recibiera un dato lo vería acá:
           span#url_inex_then.err_no_esp
-          span , pero espero un error acá: 
+          span , pero espero un error acá:
           span#url_inex_catch.res_ok
         li
-          span datos feos que van a ser rechazados por el servidor. Datos: 
+          span datos feos que van a ser rechazados por el servidor. Datos:
           input#datos_feos(value="esto < 5 ó >4 a<b>c & esto ; feo '; drop table" style='width:300px')
-          span si recibiera un dato lo vería acá: 
+          span si recibiera un dato lo vería acá:
           span#datos_feos_then.err_no_esp
-          span , pero espero un error acá: 
+          span , pero espero un error acá:
           span#datos_feos_catch.res_ok
         li
-          span datos paso a paso. Cantidad de pasos:  
+          span datos paso a paso. Cantidad de pasos:
           input#cantidad_pasos(value='4')
           span un error que no espero aparecería acá:
           span#paso_a_paso_err.err_no_esp
@@ -40,21 +40,21 @@ html(lang="es")
         li
           span datos con heather vía post. Header mirror=
           input#mirror(value='espejo')
-          span . dato 
+          span . dato
           input#dato_post(value='súper fan')
-          span . resultado recibido: 
-          span#dato_post_rec 
+          span . resultado recibido:
+          span#dato_post_rec
           span . header recibido:
           span#dato_post_head
           span . error no esperado:
           span#dato_post_err.err_no_esp
-        li 
+        li
           span JSON con heather vía get. Header mirror=
           input#json_mirror(value='Quebec')
           span . header recibido:
           span#json_post_head
-          span . resultado recibido: 
-          pre#json_post_rec 
+          span . resultado recibido:
+          pre#json_post_rec
           span . error no esperado:
           span#json_post_err.err_no_esp
         li
@@ -73,4 +73,3 @@ html(lang="es")
           div.indicator
     script(src='ajax-best-promise.js')
     script(src='example.js')
-      

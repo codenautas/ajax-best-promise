@@ -35,7 +35,7 @@ function newXMLHttpRequest_OrSomethingLikeThis(){
             ajax = new ActiveXObject("Msxml2.XMLHTTP");
         } catch(e) {
             ajax = new ActiveXObject("Microsoft.XMLHTTP");
-        }                
+        }
     }
     return ajax;
     /*jshint +W117 */
@@ -82,17 +82,17 @@ AjaxBestPromise.createMethodFunction=function(method){
                             reject(err);
                         }
                     };
-                    // var interval = setInterval(receivePart,1000); 
+                    // var interval = setInterval(receivePart,1000);
                     // if('multipart' in ajax){
                     //     ajax.multipart=true;
                     // }
                     var proFun=function(){
-                        /* istanbul ignore next */ 
+                        /* istanbul ignore next */
                         if(ajax.readyState !== 2 && ajax.readyState !== 3 && ajax.readyState !== 4){
                             return;
                         }
                         headerFun();
-                        /* istanbul ignore next */ 
+                        /* istanbul ignore next */
                         if(!('status' in ajax) || ajax.status !== 200){
                             return;
                         }

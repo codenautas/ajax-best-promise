@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 
 var agentInfo=new UserAgent().parse(window.navigator.userAgent);
 
@@ -24,20 +24,20 @@ describe("ajax-best-promise", function() {
     var fromElements = AjaxBestPromise.fromElements;
     describe('fromElements',function(){
         beforeEach(function() {
-            var fixture = '<div id=fixture><input id="param1" value="one">' + 
+            var fixture = '<div id=fixture><input id="param1" value="one">' +
               '<input id="param2" value="two">'+
               '<span id=elementWithNoValue>The span text</span>'+
               '</div>';
             document.body.insertAdjacentHTML('afterbegin', fixture);
         });
-      
+
         afterEach(function() {
             var fixtureElement=document.getElementById('fixture');
             if(fixtureElement){
                 document.body.removeChild(fixtureElement);
             }
         });
-        
+
         it("get input values  fromElements", function() {
             expect(fromElements).to.be.ok();
             expect(fromElements).to.be.a(Function);
@@ -45,12 +45,12 @@ describe("ajax-best-promise", function() {
                 'param1', document.getElementById('param2'),
                 'elementWithNoValue',
             ])).to.eql({
-                param1:'one', 
+                param1:'one',
                 param2:'two',
                 elementWithNoValue:'The span text',
             });
         });
-        
+
         it("complete path fromElements", function() {
             expect(AjaxBestPromise.completePath([
                 'param1', document.getElementById('param2'),
@@ -67,7 +67,7 @@ describe("ajax-best-promise", function() {
             }
         });
     });
-    
+
     it("send and receive normal message with ajax", function(done){
         expect(XMLHttpRequest.toString()).to.match(/\[object XMLHttpRequest(Constructor)?\]|function XMLHttpRequest\(\)[\s|\n]*{[\s|\n]*\[native code\][\s|\n]*}/);
         var ajax;
@@ -76,7 +76,7 @@ describe("ajax-best-promise", function() {
                 ajax = new ActiveXObject("Msxml2.XMLHTTP");
             } catch(e) {
                 ajax = new ActiveXObject("Microsoft.XMLHTTP");
-            }                
+            }
         }else{
             ajax = new XMLHttpRequest();
         }
@@ -98,7 +98,7 @@ describe("ajax-best-promise", function() {
         };
         ajax.send();
     });
-    
+
     it("send and receive normal message", function(done){
         AjaxBestPromise.get({
             url:'http://'+location.hostname+':12448/ejemplo/suma',
@@ -248,7 +248,7 @@ describe("ajax-best-promise", function() {
             done();
         }).catch(done);
     });
-    
+
     it("receive chunked data", function(done){
         this.timeout(4000);
         var expected=/line 1\n-?line 2 es primo!\n-?line 3 es primo!\n/;
@@ -290,11 +290,11 @@ describe("ajax-best-promise", function() {
             done();
         }).catch(done);
     });
-    
+
     it("receive line stream", function(done){
         this.timeout(4000);
         var emmited =[['∞'],{alpha:'α', beta:'β', gamma:'γ'}, false, null, "¡águila!", "last"];
-        var expected=['"one"\n','2\r','3\r\n'].concat(emmited.map(function(o){ 
+        var expected=['"one"\n','2\r','3\r\n'].concat(emmited.map(function(o){
             return JSON.stringify(o)+(o==='last'?'':'\n');
         }));
         var obtained=[];
@@ -311,7 +311,7 @@ describe("ajax-best-promise", function() {
             done();
         }).catch(done);
     });
-    
+
     it("receive json stream", function(done){
         this.timeout(8000);
         var expected=["one",2,3,['∞'],{alpha:'α', beta:'β', gamma:'γ'}, "¡águila!"];

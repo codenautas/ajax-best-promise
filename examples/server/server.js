@@ -20,8 +20,8 @@ if(karmaIndex>0){
     karma = require('karma'); // eslint-disable-line global-require
     var karmaConfig = require('../../karma.conf.js'); // eslint-disable-line global-require
     var options;
-    karmaConfig({set:function(opts){ 
-        options=opts; 
+    karmaConfig({set:function(opts){
+        options=opts;
         if(process.argv.indexOf('--single-run')>0){
             options.singleRun=true;
         }
@@ -111,14 +111,14 @@ var validExts=[
     'css','js','manifest'];
 
 app.use('/',serveContent('./bin', {
-    index: ['index.html'], 
-    extensions:[''], 
+    index: ['index.html'],
+    extensions:[''],
     allowedExts:validExts
 }));
 
 app.use('/',serveContent('./examples/client', {
-    index: ['index.html'], 
-    extensions:[''], 
+    index: ['index.html'],
+    extensions:[''],
     allowedExts:validExts
 }));
 
@@ -240,9 +240,9 @@ app.get('/ejemplo/line-stream',streamEmiter(false));
 app.get('/ejemplo/json-stream',streamEmiter(true));
 
 app.post('/ejemplo/post/files', function(req, res, next){
-    Promise.all(req.files.theFiles.map(function(file){ 
+    Promise.all(req.files.theFiles.map(function(file){
         return fs.readFile(file.path).then(function(data){
-            return file.originalFilename+' of size '+file.size+' content: '+data.toString().substr(0,10)+'... '; 
+            return file.originalFilename+' of size '+file.size+' content: '+data.toString().substr(0,10)+'... ';
         });
     })).then(function(parts){
         res.send(
