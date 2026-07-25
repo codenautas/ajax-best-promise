@@ -11,7 +11,8 @@ function newFile(parts, name, type){
             try{
                 rta.name=name;
                 rta.lastModifiedDate = new Date();
-            }catch(err2){
+            }catch(_){
+                // ok, empty, nothing to do here!
             }
             return rta;
         }
@@ -82,8 +83,8 @@ describe("ajax-best-promise", function() {
         ajax.open('GET', 'http://'+location.hostname+':12448/ejemplo/suma?p1=7&p2=8');
         ajax.setRequestHeader('X-Requested-With','XMLHttpRequest');
         ajax.onreadystatechange=function(e){
-            if(ajax.readyState == 4){
-                if(ajax.status!=200){
+            if(ajax.readyState == 4){ // eslint-disable-line eqeqeq
+                if(ajax.status != 200){ // eslint-disable-line eqeqeq
                     done(new Error("bad status "+ajax.status));
                 }else{
                     try{
@@ -118,7 +119,7 @@ describe("ajax-best-promise", function() {
         }).catch(done);
     });
 
-    if(agentInfo.browser=='Safari' && agentInfo.version.match(/^5/)){
+    if(agentInfo.browser === 'Safari' && agentInfo.version.match(/^5/)){
         it("post file");
         it("post 3 files");
     }else{

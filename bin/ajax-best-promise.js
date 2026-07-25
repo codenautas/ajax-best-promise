@@ -41,12 +41,11 @@ function newXMLHttpRequest_OrSomethingLikeThis(){
     /*jshint +W117 */
 }
 
-/* global Promise */
 AjaxBestPromise.createMethodFunction=function(method){
     return function(params){
         var registeredHeadersConsumer = false;
         var promiseForReturn = function(chunkConsumer, progressHooks){
-            return new Promise(function(resolve,reject){
+            return new Promise(function(resolve,reject){ /* eslint-disable-line max-statements */
                 var ajax = newXMLHttpRequest_OrSomethingLikeThis();
                 var receivePart;
                 progressHooks.forEach(function(f){
@@ -56,7 +55,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                     ajax.upload.addEventListener('progress',params.uploading);
                 }
                 var headerFun = function(){
-                    if (ajax.readyState == 2 && registeredHeadersConsumer) {
+                    if (ajax.readyState === 2 && registeredHeadersConsumer) {
                         var headers = {}
                         ajax.getAllResponseHeaders().split(/\r?\n/).forEach(function(line){
                             var list = line.split(':');
@@ -89,12 +88,12 @@ AjaxBestPromise.createMethodFunction=function(method){
                     // }
                     var proFun=function(){
                         /* istanbul ignore next */ 
-                        if(ajax.readyState != 2 && ajax.readyState != 3 && ajax.readyState != 4){
+                        if(ajax.readyState !== 2 && ajax.readyState !== 3 && ajax.readyState !== 4){
                             return;
                         }
                         headerFun();
                         /* istanbul ignore next */ 
-                        if(!('status' in ajax) || ajax.status != 200){
+                        if(!('status' in ajax) || ajax.status !== 200){
                             return;
                         }
                         receivePart();
@@ -107,7 +106,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                     receivePart=function(){};
                 }
                 var okFun=function(){
-                    if(ajax.status!=200){
+                    if(ajax.status !== 200){
                         var error = Error(ajax.status+' '+ajax.responseText);
                         error.status = ajax.status;
                         var matches = ajax.responseText.match(/^[0-9]*\s*ERROR\s?([^\n:]+):/i);
@@ -161,7 +160,7 @@ AjaxBestPromise.createMethodFunction=function(method){
                 }else{
                     ajax.onreadystatechange=function(e){
                         headerFun();
-                        if(ajax.readyState == 4){
+                        if(ajax.readyState === 4){
                             return okFun(e);
                         }
                     };
@@ -266,7 +265,7 @@ AjaxBestPromise.fromElements=function fromElements(listOfElementsOrIds,addParam,
     };
     listOfElementsOrIds.forEach(function(elementOrId){
         var element;
-        if(typeof elementOrId == 'string'){
+        if(typeof elementOrId === 'string'){
             /*jshint -W117 */
             element=document.getElementById(elementOrId);
             /*jshint +W117 */

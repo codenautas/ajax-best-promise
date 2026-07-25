@@ -1,12 +1,14 @@
-"use string";
+"use strict";
 
 function eid(x){
     return document.getElementById(x);
 }
 
+const INCLUDE_TESTED_IN_PREV = "include tested in previous versions (or put a ! for skip)"
+
 window.addEventListener('load', function(){
     eid('start').onclick=function(){
-        if(!!"include tested in previous versions (or put a ! for skip)"){
+        if(INCLUDE_TESTED_IN_PREV){
             AjaxBestPromise.get({
                 url:'/ejemplo/suma',
                 data:AjaxBestPromise.fromElements(['p1', eid('p2')])
@@ -51,10 +53,10 @@ window.addEventListener('load', function(){
             }).onHeaders(function(headers){
                 var result = headers.rorrim;
                 eid('dato_post_head').textContent = result ?? 'undefined';
-                eid('dato_post_head').className = result == 'ojepse' ? 'res_ok' : 'res_err';
+                eid('dato_post_head').className = result === 'ojepse' ? 'res_ok' : 'res_err';
             }).then(function(result){
                 eid('dato_post_rec').textContent = result ?? 'undefined';
-                eid('dato_post_rec').className = result == 'ok súper fan' ? 'res_ok' : 'res_err';
+                eid('dato_post_rec').className = result === 'ok súper fan' ? 'res_ok' : 'res_err';
             }).catch(function(err){
                 dato_post_err.textContent=''+err;
             });
@@ -72,7 +74,7 @@ window.addEventListener('load', function(){
             }
         }).onHeaders(function(headers){
             eid('json_post_head').textContent = headers.mirror;
-            eid('json_post_head').className = headers.mirror == 'm: ' + eid('json_mirror').value ? 'res_ok' : 'res_err';
+            eid('json_post_head').className = headers.mirror === 'm: ' + eid('json_mirror').value ? 'res_ok' : 'res_err';
         }).onJson(function(json){
             eid('json_post_rec').textContent+='\n'+JSON.stringify(json);
             obtained.push(json);

@@ -3,11 +3,12 @@
 Ajax with best promise - Ajax with stream data
 
 
-![extending](https://img.shields.io/badge/stability-extending-orange.svg)
 [![npm-version](https://img.shields.io/npm/v/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
-[![build](https://github.com/codenautas/ajax-best-promise/actions/workflows/node.js.yml/badge.svg)](https://github.com/codenautas/ajax-best-promise/actions/workflows/node.js.yml)
 [![downloads](https://img.shields.io/npm/dm/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
-[![outdated-deps](https://img.shields.io/github/issues-search/codenautas/ajax-best-globals?color=9cf&label=outdated-deps&query=is%3Apr%20author%3Aapp%2Fdependabot%20is%3Aopen)](https://github.com/codenautas/ajax-best-globals/pulls/app%2Fdependabot)
+[![build](https://github.com/codenautas/ajax-best-promise/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/codenautas/ajax-best-promise/actions/workflows/build-and-test.yml)
+[![coverage](https://img.shields.io/coveralls/codenautas/ajax-best-promise/master.svg)](https://coveralls.io/r/codenautas/ajax-best-promise)
+[![security](https://socket.dev/api/badge/npm/package/ajax-best-promise)](https://socket.dev/npm/package/ajax-best-promise)
+[![qa-control](https://github.com/codenautas/ajax-best-promise/actions/workflows/qa-control.yml/badge.svg)](https://github.com/codenautas/ajax-best-promise/actions/workflows/qa-control.yml)
 
 
 

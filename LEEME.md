@@ -10,11 +10,12 @@ Ajax with best promise - Ajax with stream data
 [!--lang:*-->
 
 <!-- cucardas -->
-![extending](https://img.shields.io/badge/stability-extending-orange.svg)
 [![npm-version](https://img.shields.io/npm/v/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
-[![build](https://github.com/codenautas/ajax-best-promise/actions/workflows/node.js.yml/badge.svg)](https://github.com/codenautas/ajax-best-promise/actions/workflows/node.js.yml)
 [![downloads](https://img.shields.io/npm/dm/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
-[![outdated-deps](https://img.shields.io/github/issues-search/codenautas/ajax-best-globals?color=9cf&label=outdated-deps&query=is%3Apr%20author%3Aapp%2Fdependabot%20is%3Aopen)](https://github.com/codenautas/ajax-best-globals/pulls/app%2Fdependabot)
+[![build](https://github.com/codenautas/ajax-best-promise/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/codenautas/ajax-best-promise/actions/workflows/build-and-test.yml)
+[![coverage](https://img.shields.io/coveralls/codenautas/ajax-best-promise/master.svg)](https://coveralls.io/r/codenautas/ajax-best-promise)
+[![security](https://socket.dev/api/badge/npm/package/ajax-best-promise)](https://socket.dev/npm/package/ajax-best-promise)
+[![qa-control](https://github.com/codenautas/ajax-best-promise/actions/workflows/qa-control.yml/badge.svg)](https://github.com/codenautas/ajax-best-promise/actions/workflows/qa-control.yml)
 
 
 <!--multilang buttons-->
@@ -63,8 +64,8 @@ AjaxBestPromise.get({
 ## Lectura parcial
 
 La principal ventaja de este módulo es la capacidad de definir
-un manejador para ir recibiendo el texto desde el servidor 
-a medida que lo va mandando con la función 
+un manejador para ir recibiendo el texto desde el servidor
+a medida que lo va mandando con la función
 `onChunk`, o línea a línea con `onLine` o objeto a objeto JSON con `onJson`.
 
 `onJson` espera un flujo de objetos JSON, que vienen uno por línea
@@ -73,7 +74,7 @@ a medida que lo va mandando con la función
 
 ## Chunked data
 
-The **main adventage** of **ajax-best-promise** is the ability for process partial data 
+The **main adventage** of **ajax-best-promise** is the ability for process partial data
 in three flavors: `onChunk`, `onLine`, `onJson`
 
 [!--lang:*-->
@@ -134,7 +135,7 @@ NPM version |Device                 |OS             |nav                      |o
 0.1.3       | Samsung Galaxy Note 4 | Android 6.0.1 | Chrome Mobile 44.0.2403 |
 0.1.3       | iPad mini Retina      | iOS 8.4.0     | Mobile Safari 8.0.0     |
 0.1.3       | VMWare                | WinXP         | IE 8.0.0                | polyfill:many - fail:line stream & json stream
- 
+
 
 <!--lang:es-->
 ## Licencia

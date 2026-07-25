@@ -41,6 +41,7 @@
     "pug": "^3.0.3",
     "read-yaml-promise": "^1.0.2",
     "mini-tools": "^1.13.4",
+    "qa-control": "^0.8.1",
     "require-bro": "^0.3.2",
     "serve-content": "^1.0.2"
   },
@@ -49,10 +50,19 @@
   },
   "scripts": {
     "infinito": "node examples/server/server.js --karma karma.conf.js",
-    "test": "echo Use test-ui to test!",
+    "test": "node examples/server/server.js --karma karma.conf.js --single-run",
     "test-ui": "node examples/server/server.js --karma karma.conf.js --single-run",
     "test-cov": "node examples/server/server.js --karma karma.conf.js --single-run",
-    "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
+    "test-ci": "node examples/server/server.js --karma karma.conf.js --single-run",
     "start": "node examples/server/server.js"
+  },
+  "qa-control": {
+    "run-in": "client",
+    "type": "lib",
+    "coverage": 80,
+    "gha": "all",
+    "silenced": [
+      "first_lines_does_not_match_in_file_1"
+    ]
   }
 }

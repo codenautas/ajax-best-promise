@@ -18,7 +18,7 @@ module.exports = function(config, preConfig) {
     files: [
       'node_modules/es6-promise/dist/es6-promise.min.js',
       'node_modules/require-bro/lib/polyfills-bro.js',
-      'node_modules/express-useragent/lib/express-useragent.js',
+      'node_modules/express-useragent/dist/browser/express-useragent.global.js',
       'bin/*.js',
       'test/*.js'
     ],
@@ -34,7 +34,7 @@ module.exports = function(config, preConfig) {
     preprocessors: {
       'bin/*.js': preConfig.singleRun?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */,
     },
-    coverageReporter: process.env.TRAVIS?{type:'lcov'}:{
+    coverageReporter: process.env.TRAVIS?{type:'lcov', subdir:'.'}:{
       type : 'html',
       dir : 'coverage/'
     },
@@ -73,7 +73,7 @@ module.exports = function(config, preConfig) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Firefox'].concat((process.env.TRAVIS?[]:['Chrome'])),
+    browsers: process.env.TRAVIS?['ChromeHeadless']:['Firefox','Chrome'],
     /* NO CAMBIAR MÁS BROWSERS DIRECTO DESDE ACÁ, INVOCAR DESDE LA LÍNEA DE PARÁMETROS ASÍ:
     npm run infinito -- --browsers Chrome
     npm run infinito -- --browsers Firefox,Chrome
