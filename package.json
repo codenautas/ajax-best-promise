@@ -1,7 +1,7 @@
 {
   "name": "ajax-best-promise",
   "description": "Ajax with best promise - Ajax with stream data",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "files": [
