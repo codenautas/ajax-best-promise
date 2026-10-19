@@ -14,7 +14,6 @@ Ajax with best promise - Ajax with stream data
 [![downloads](https://img.shields.io/npm/dm/ajax-best-promise.svg)](https://npmjs.org/package/ajax-best-promise)
 [![build](https://github.com/codenautas/ajax-best-promise/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/codenautas/ajax-best-promise/actions/workflows/build-and-test.yml)
 [![coverage](https://img.shields.io/coveralls/codenautas/ajax-best-promise/master.svg)](https://coveralls.io/r/codenautas/ajax-best-promise)
-[![security](https://socket.dev/api/badge/npm/package/ajax-best-promise)](https://socket.dev/npm/package/ajax-best-promise)
 [![qa-control](https://github.com/codenautas/ajax-best-promise/actions/workflows/qa-control.yml/badge.svg)](https://github.com/codenautas/ajax-best-promise/actions/workflows/qa-control.yml)
 
 

@@ -1,0 +1,14 @@
+server4test:
+  port: 12448
+  verbose: false
+  public-dir:
+    - .
+    - examples/client
+    - bin
+  browser-test:
+    files:
+      - node_modules/require-bro/lib/polyfills-bro.js
+      - node_modules/express-useragent/dist/browser/express-useragent.global.js
+      - node_modules/expect.js/index.js
+      - local-instrumented/bin/ajax-best-promise.js
+      - test/test.js

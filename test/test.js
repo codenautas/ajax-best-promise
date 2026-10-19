@@ -80,7 +80,7 @@ describe("ajax-best-promise", function() {
         }else{
             ajax = new XMLHttpRequest();
         }
-        ajax.open('GET', 'http://'+location.hostname+':12448/ejemplo/suma?p1=7&p2=8');
+        ajax.open('GET', '/ejemplo/suma?p1=7&p2=8');
         ajax.setRequestHeader('X-Requested-With','XMLHttpRequest');
         ajax.onreadystatechange=function(e){
             if(ajax.readyState == 4){ // eslint-disable-line eqeqeq
@@ -101,7 +101,7 @@ describe("ajax-best-promise", function() {
 
     it("send and receive normal message", function(done){
         AjaxBestPromise.get({
-            url:'http://'+location.hostname+':12448/ejemplo/suma',
+            url:'/ejemplo/suma',
             data:{p1:7, p2:8}
         }).then(function(result){
             expect(result).to.be('15');
@@ -111,7 +111,7 @@ describe("ajax-best-promise", function() {
 
     it("post utf8 message", function(done){
         AjaxBestPromise.post({
-            url:'http://'+location.hostname+':12448/ejemplo/post/upper',
+            url:'/ejemplo/post/upper',
             data:{text:'¡águila, pingüino, tatú!\n\n\n123 ERROR lower: UPPER'}
         }).then(function(result){
             expect(result).to.be('¡ÁGUILA, PINGÜINO, TATÚ!\n\n\n123 ERROR LOWER: UPPER');
@@ -125,7 +125,7 @@ describe("ajax-best-promise", function() {
     }else{
         it("post file", function(done){
             AjaxBestPromise.post({
-                url:'http://'+location.hostname+':12448/ejemplo/post/files',
+                url:'/ejemplo/post/files',
                 multipart:true,
                 data:{
                     theFiles:[newFile(['this is a txt file'],'filename1.txt')],
@@ -139,7 +139,7 @@ describe("ajax-best-promise", function() {
 
         it("post 3 files", function(done){
             AjaxBestPromise.post({
-                url:'http://'+location.hostname+':12448/ejemplo/post/files',
+                url:'/ejemplo/post/files',
                 multipart:true,
                 data:{
                     theFiles:[
@@ -163,7 +163,7 @@ describe("ajax-best-promise", function() {
     it("informs upload progress with the uploading method", function(done){
         var progresses=[];
         AjaxBestPromise.post({
-            url:'http://'+location.hostname+':12448/ejemplo/post/files',
+            url:'/ejemplo/post/files',
             multipart:true,
             data:{
                 theFiles:[newFile(['this is a txt file'],'filename1.txt')],
@@ -182,7 +182,7 @@ describe("ajax-best-promise", function() {
     it("informs upload progress with the uploading parameter", function(done){
         var progresses=[];
         AjaxBestPromise.post({
-            url:'http://'+location.hostname+':12448/ejemplo/post/files',
+            url:'/ejemplo/post/files',
             multipart:true,
             data:{
                 theFiles:[newFile(['this is a txt file'],'filename1.txt')],
@@ -200,7 +200,7 @@ describe("ajax-best-promise", function() {
 
     it("receive status 400", function(done){
         AjaxBestPromise.get({
-            url:'http://'+location.hostname+':12448/ejemplo/error',
+            url:'/ejemplo/error',
             data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
         }).then(function(result){
             done(new Error('does not expect a resolved result'));
@@ -213,7 +213,7 @@ describe("ajax-best-promise", function() {
 
     it("receive status and code", function(done){
         AjaxBestPromise.get({
-            url:'http://'+location.hostname+':12448/ejemplo/error-code',
+            url:'/ejemplo/error-code',
             data:{}
         }).then(function(result){
             done(new Error('does not expect a resolved result'));
@@ -227,7 +227,7 @@ describe("ajax-best-promise", function() {
 
     it("receive status without code", function(done){
         AjaxBestPromise.get({
-            url:'http://'+location.hostname+':12448/ejemplo/error-wo-code',
+            url:'/ejemplo/error-wo-code',
             data:{}
         }).then(function(result){
             done(new Error('does not expect a resolved result'));
@@ -242,7 +242,7 @@ describe("ajax-best-promise", function() {
 
     it("receive details", function(done){
         AjaxBestPromise.get({
-            url:'http://'+location.hostname+':12448/ejemplo/error-code-with-attr',
+            url:'/ejemplo/error-code-with-attr',
             data:{}
         }).then(function(result){
             done(new Error('does not expect a resolved result'));
@@ -274,7 +274,7 @@ describe("ajax-best-promise", function() {
 
     it("receive status 404 not found", function(done){
         AjaxBestPromise.get({
-            url:'http://'+location.hostname+':12448/ejemplo/inexistente',
+            url:'/ejemplo/inexistente',
             data:{a: 101}
         }).then(function(result){
             done(new Error('does not expect a resolved result'));
@@ -292,7 +292,7 @@ describe("ajax-best-promise", function() {
         var expected=/line 1\n-?line 2 es primo!\n-?line 3 es primo!\n/;
         var obtained=[];
         AjaxBestPromise.get({
-            url:'http://'+location.hostname+':12448/ejemplo/flujo',
+            url:'/ejemplo/flujo',
             data:{limite:3, delay:400}
         }).onChunk(function(chunk){
             obtained.push(chunk);
@@ -305,7 +305,7 @@ describe("ajax-best-promise", function() {
     it("error in a chunked post", function(done){
         this.timeout(4000);
         AjaxBestPromise.post({
-            url:'http://'+location.hostname+':12448/ejemplo/error',
+            url:'/ejemplo/error',
             data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
         }).onChunk(function(chunk){
             done(new Error('does not expect a chunk result: '+chunk));
@@ -320,7 +320,7 @@ describe("ajax-best-promise", function() {
 
     it("catchs error directly in a chunked post", function(done){
         AjaxBestPromise.post({
-            url:'http://'+location.hostname+':12448/ejemplo/error',
+            url:'/ejemplo/error',
             data:{p_valor_malo:'¡ágape<b>c&d; drop table!'}
         }).catch(function(err){
             expect(err.message).to.match(/404(.|\n)*Cannot POST.*\/ejemplo\/error/);
@@ -337,7 +337,7 @@ describe("ajax-best-promise", function() {
         }));
         var obtained=[];
         AjaxBestPromise.get({
-            url:'http://'+location.hostname+':12448/ejemplo/line-stream',
+            url:'/ejemplo/line-stream',
             data:{
                 data:JSON.stringify(emmited),
                 delay:150
@@ -355,7 +355,7 @@ describe("ajax-best-promise", function() {
         var expected=["one",2,3,['∞'],{alpha:'α', beta:'β', gamma:'γ'}, "¡águila!"];
         var obtained=[];
         AjaxBestPromise.get({
-            url:'http://'+location.hostname+':12448/ejemplo/json-stream',
+            url:'/ejemplo/json-stream',
             data:{
                 data:JSON.stringify(expected.slice(3)),
                 delay:150
@@ -375,7 +375,7 @@ describe("ajax-best-promise", function() {
 
     it("post with headers", function(done){
         AjaxBestPromise.post({
-            url:'http://'+location.hostname+':12448/ejemplo/post/headers',
+            url:'/ejemplo/post/headers',
             //  url:'/ejemplo/post/headers',
             data:{text:'¡águila!'},
             headers:{mirror:'espejo'},
